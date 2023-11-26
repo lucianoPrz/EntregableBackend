@@ -6,9 +6,10 @@ const router = Router();
 const cartManagerFile = new CartManagerFile(path);
 
 router.get('/', async(req, res) => {
+    const carts = await cartManagerFile.getCarts();
     res.send({
         status: 'success',
-        msg: `Ruta GET CART`
+        carritos: carts
     })
 })
 

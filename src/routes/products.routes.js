@@ -6,26 +6,43 @@ const router = Router();
 const productManagerFile = new ProductManagerFile(path);
 
 router.get('/', async(req, res) => {
-    res.send({
-        status: 'success',
-        msg: `Ruta GET PRODUCT`
-    })
+    let products = await productManagerFile.getProducts();
+    let limit = parseInt(req.query.limit)
+
+    if(!limit || limit > products.length){
+        res.json({
+            status: 'success',
+            productos: products
+        })
+    } else {
+        let productsLimit = products.slice(0, limit)
+        res.json({
+            status: 'success',
+            productos: productsLimit
+        })
+    }
 })
 
 router.get('/:pid', async(req, res) => {
-    const pid = req.params.pid
+    const products = await productManagerFile.getProducts();
 
-    res.send({
-        status: 'success',
-        msg: `Ruta GETID ${pid} PRODUCT`
-    })
+    const pid = parseInt(req.params.pid)
+
+    const producto = products.find(prod => prod.id === pid)
+
+    if (!producto) {
+        return res.send({error: 'Not Found'}) 
+    }
+    res.json({producto: producto})
 })
 
 router.post('/', async(req, res) => {
-    
+    const product = req.body;
+    const products = await productManagerFile.addProduct(product)
     res.send({
         status: 'success',
-        msg: `Ruta POST PRODUCT`
+        msg: `Producto creado`,
+        productos: products
     })
 })
 
