@@ -1,8 +1,10 @@
 import fs from 'fs';
+import path from 'path';
+import __dirname from '../utils.js';
 
-export default class ProductManager {
-    constructor(path) {
-        this.path = path;
+export default class ProductManagerFile {
+    constructor(pathFile) {
+        this.path = path.join(__dirname, `/files/${pathFile}`);
     }
 
     // retorna todos los productos registrados
@@ -101,3 +103,5 @@ export default class ProductManager {
         return productFiltrados;
     }
 }
+
+export { ProductManagerFile }
