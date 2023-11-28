@@ -7,5 +7,23 @@
 		"code": "abc123",
 		"stock": 25,
 		"id": 1
+	},
+	{
+		"title": "producto actualizado",
+		"description": "Esto es un producto actualizado prueba",
+		"price": 10000000,
+		"thumbnail": "Sin imagen",
+		"code": "update123",
+		"stock": 5000,
+		"id": 3
+	},
+	{
+		"title": "producto prueba 4",
+		"description": "Esto es un producto prueba 4",
+		"price": 400,
+		"thumbnail": "Sin imagen",
+		"code": "abc124",
+		"stock": 25,
+		"id": 4
 	}
 ]
