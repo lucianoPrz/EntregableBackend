@@ -45,22 +45,25 @@ router.post('/', async(req, res) => {
 })
 
 router.post('/:cid/product/:pid', async(req, res) => {
-    const pid = req.params.pid
-    const cid = req.params.cid
+    const pid = parseInt(req.params.pid)
+    const cid = parseInt(req.params.cid)
 
-    res.send({
-        status: 'success',
-        msg: `Ruta POST CART - AGREGO producto ${pid} al carrito ${cid}`
-    })
-})
+    const carts = await cartManagerFile.updateCart(cid, pid)
 
+    if (carts === "Not found") {
+        return res.send({ 
+            status: 'error',
+            error: 'No existe el carrito'
+         })
+        } else {
+            res.send({
+                status: 'success',
+                msg: `Carrito actualizado`,
+                carrito: carts
+            })
 
-router.delete('/:cid', async(req, res) => {
-    const cid = req.params.cid
-    res.send({
-        status: 'success',
-        msg: `Ruta DELETE ID: ${cid} CART`
-    })
+        }
+
 })
 
 export { router as cartRouter}

@@ -47,8 +47,19 @@ class CartManagerFile {
         return carts;
     }
 
-    updateCart = async (cart) => {
+    updateCart = async (cartId, prodId) => {
+        const cart = await this.getCartsById(cartId);
+
+        if(!cart){
+            return "Not found"
+        }
         
+        const carts = await this.getCarts();
+
+        carts[cart.id-1].products.push(prodId)
+        await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'))
+
+        return carts;
     }
 }
 

@@ -57,7 +57,6 @@ router.put('/:pid', async (req, res) => {
     const existeProducto = await productManagerFile.getProductById(pid)
 
     if (existeProducto === "Not found") {
-        console.log(`camino false`)
         return res.send({
             status: 'error',
             msg: `Producto inexistente`
