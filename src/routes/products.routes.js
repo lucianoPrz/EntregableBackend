@@ -31,9 +31,15 @@ router.get('/:pid', async (req, res) => {
     const producto = products.find(prod => prod.id === pid)
 
     if (!producto) {
-        return res.send({ error: 'Not Found' })
+        return res.send({ 
+            status: 'error',
+            error: 'No existe el producto' 
+        })
     }
-    res.json({ producto: producto })
+    res.send({ 
+        status: 'success',
+        producto: producto
+     })
 })
 
 router.post('/', async (req, res) => {

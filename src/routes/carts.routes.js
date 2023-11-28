@@ -14,18 +14,33 @@ router.get('/', async(req, res) => {
 })
 
 router.get('/:cid', async(req, res) => {
-    const cid = req.params.cid
+    const carts = await cartManagerFile.getCarts();
+    const cid = parseInt(req.params.cid)
 
-    res.send({
-        status: 'success',
-        msg: `Ruta GETID con ID: ${cid} CART`
-    })
+    const cart = carts.find(cart => cart.id === cid)
+
+    if (!cart) {
+        return res.send({ 
+            status: 'error',
+            error: 'No existe el carrito'
+         })
+    } else {
+        res.send({
+            status: 'success',
+            carrito: cart
+        })
+    }
+
+    
 })
 
 router.post('/', async(req, res) => {
+    const cart = req.body;
+    const carts = await cartManagerFile.addCart(cart);
     res.send({
         status: 'success',
-        msg: `Ruta POST CART`
+        msg: `Carrito creado`,
+        carritos: carts
     })
 })
 
@@ -39,13 +54,6 @@ router.post('/:cid/product/:pid', async(req, res) => {
     })
 })
 
-router.put('/:cid', async(req, res) => {
-    const cid = req.params.cid
-    res.send({
-        status: 'success',
-        msg: `Ruta PUT ID: ${cid} CART`
-    })
-})
 
 router.delete('/:cid', async(req, res) => {
     const cid = req.params.cid
