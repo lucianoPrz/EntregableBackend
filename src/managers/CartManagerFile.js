@@ -56,7 +56,19 @@ class CartManagerFile {
         
         const carts = await this.getCarts();
 
-        carts[cart.id-1].products.push(prodId)
+        const indexProdEnCart = carts[cartId-1].products.findIndex(product => product.id === prodId)
+
+        if (indexProdEnCart !== -1) {
+            carts[cart.id-1].products[indexProdEnCart].quantity ++;
+        } else {
+            const product = {
+                id : prodId,
+                quantity: 1
+            }
+            carts[cart.id-1].products.push(product);
+        }
+
+        
         await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'))
 
         return carts;
