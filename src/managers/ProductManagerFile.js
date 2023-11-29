@@ -37,7 +37,7 @@ export default class ProductManagerFile {
     addProduct = async (product) => {
 
         // valida que todos los campos requeridos tengan datos
-        if (!product.title || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock) {
+        if (!product.title || !product.description || !product.code || !product.price || !product.status || !product.stock || !product.category) {
             return "Todos los datos son obligatorios"
         }
         
@@ -60,7 +60,7 @@ export default class ProductManagerFile {
     updateProduct = async (productId, product) => {
 
         // valida que todos los campos requeridos tengan datos
-        if (!product.title || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock) {
+        if (!product.title || !product.description || !product.code || !product.price || !product.status || !product.stock || !product.category) {
             return "Todos los datos son obligatorios"
         }
         
@@ -77,10 +77,11 @@ export default class ProductManagerFile {
             // se actualiza los campos del objeto
             products[productId-1].title = product.title,
             products[productId-1].description = product.description,
-            products[productId-1].price = product.price,
-            products[productId-1].thumbnail = product.thumbnail,
             products[productId-1].code = product.code,
-            products[productId-1].stock = product.stock
+            products[productId-1].price = product.price,
+            products[productId-1].status = product.status,
+            products[productId-1].stock = product.stock,
+            products[productId-1].category = product.category
         }
 
         await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'))
