@@ -11,4 +11,10 @@ router.get('/', async (req, res) => {
     res.render('home', { products: products});
 })
 
+router.get('/realtimeproducts', async (req, res) => {
+    const products = await productManagerFile.getProducts();
+
+    res.render('realTimeProducts', { products: products});
+})
+
 export { router as viewRouter}

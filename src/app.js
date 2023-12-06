@@ -5,14 +5,21 @@ import { Server } from 'socket.io';
 import { cartRouter } from './routes/carts.routes.js';
 import { productRouter } from './routes/products.routes.js';
 import { viewRouter } from './routes/views.routes.js';
+import { ProductManagerFile } from "./managers/ProductManagerFile.js";
 
 const PORT = 8080
-
+const productManagerFile = new ProductManagerFile('products.json')
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
+
+const getProductos = async() => {
+    const productos = await productManagerFile.getProducts();
+    return productos
+};
+let productos =[]
 
 const httpServer = app.listen(PORT, ()=>{
     console.log(`Server listening on ${PORT}`)
@@ -29,6 +36,17 @@ app.set("views", `${__dirname}/views`)
 app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
 app.use('/', viewRouter)
+
+socketServer.on('connection', (socket) => {
+    console.log(`Nuevo cliente conectado`)
+
+    socket.on("addProduct", (data)=>{
+
+        productos = [...productos, data];
+        socketServer.emit("products-update", productos)
+    })
+
+})
 
 
 
