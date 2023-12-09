@@ -31,15 +31,17 @@ addProductsForm.addEventListener("submit", function(event) {
     console.log(producto);
 
     socketIndex.emit('addProduct', producto);
+
 });
 
 const updateUl = document.getElementById("update-container");
 socketIndex.on("products-update", (data)=>{
+
     updateUl.innerHTML = "";
     for (const el of data) {
         console.log(data)
         const li = document.createElement("li");
-        li.innerText = `${el.title} || ${el.description} || ${el.price}`;
+        li.innerText = `${el.title} || ${el.description} || $${el.price}`;
         updateUl.appendChild(li)
     }
 })
