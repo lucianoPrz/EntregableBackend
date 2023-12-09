@@ -94,7 +94,7 @@ export default class ProductManagerFile {
         const productoExistente = products.find(product => product.id === productId);
 
         if(products.length === 0 || !productoExistente) {
-            return `No existe producto con el id ${productId}`
+            return `Not found`
         }
 
         let productFiltrados = products.filter(product => product.id !== productId)

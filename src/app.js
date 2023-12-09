@@ -50,7 +50,11 @@ socketServer.on('connection', async(socket) => {
 
     socket.on('deleteProduct', async(data)=>{
         const productosRestantes = await productManagerFile.deleteProduct(data)
-        socketServer.emit("products-update", productos)
+        if (productosRestantes !== "Not found"){
+            socketServer.emit("products-update", productosRestantes)
+        } else {
+            console.log('Id not found')
+        }
     })
 
 })
