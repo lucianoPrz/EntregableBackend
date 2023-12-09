@@ -68,5 +68,16 @@
 			"#"
 		],
 		"id": 6
+	},
+	{
+		"title": "qwe",
+		"description": "qwe",
+		"code": "qw123",
+		"price": "123",
+		"stock": "2",
+		"status": true,
+		"category": "A",
+		"thumbnail": [],
+		"id": 7
 	}
 ]

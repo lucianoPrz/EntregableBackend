@@ -37,12 +37,19 @@ app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
 app.use('/', viewRouter)
 
-socketServer.on('connection', (socket) => {
+socketServer.on('connection', async(socket) => {
     console.log(`Nuevo cliente conectado`)
 
-    socket.on("addProduct", (data)=>{
+    socket.on("addProduct", async(data)=>{
 
-        productos = [...productos, data];
+        // productos = [...productos, data];
+        const productos = await productManagerFile.addProduct(data)
+
+        socketServer.emit("products-update", productos)
+    })
+
+    socket.on('deleteProduct', async(data)=>{
+        const productosRestantes = await productManagerFile.deleteProduct(data)
         socketServer.emit("products-update", productos)
     })
 

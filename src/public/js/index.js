@@ -28,14 +28,27 @@ addProductsForm.addEventListener("submit", function(event) {
     };
 
     // Mostrar el objeto en la consola (puedes hacer lo que quieras con el objeto)
-    console.log(producto);
+    //console.log(producto);
 
     socketIndex.emit('addProduct', producto);
 
 });
 
+
+const deleteProductForm = document.getElementById('delete-prod-form')
+deleteProductForm.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const idProduct = document.getElementById('id-product').value;
+
+    socketIndex.emit('deleteProduct', idProduct);
+})
+
+
 const updateUl = document.getElementById("update-container");
 socketIndex.on("products-update", (data)=>{
+
+    
 
     updateUl.innerHTML = "";
     for (const el of data) {
