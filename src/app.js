@@ -60,10 +60,10 @@ socketServer.on('connection', async(socket) => {
     })
 
     socket.on('deleteProduct', async(dataId)=>{
-        //await productModel.deleteOne({_id: dataId})
-        //const productosRestantes = await productModel.find()
+        await productModel.deleteOne({_id: dataId})
+        const productosRestantes = await productModel.find()
         // if (productosRestantes !== "Not found"){
-          //  socketServer.emit("products-update", productosRestantes)
+        socketServer.emit("products-update", productosRestantes)
         // } else {
         //     console.log('Id not found')
         // }
