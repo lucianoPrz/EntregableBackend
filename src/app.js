@@ -1,15 +1,25 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import {engine} from 'express-handlebars'
 import __dirname from './utils.js';
 import { Server } from 'socket.io';
+
+
 import { cartRouter } from './routes/carts.routes.js';
 import { productRouter } from './routes/products.routes.js';
 import { viewRouter } from './routes/views.routes.js';
-import { ProductManagerFile } from "./managers/ProductManagerFile.js";
+
+import { ProductManagerFile } from "./dao/managers/ProductManagerFile.js";
+import productModel from './dao/models/product.model.js';
+
 
 const PORT = 8080
 const productManagerFile = new ProductManagerFile('products.json')
 const app = express();
+
+const MONGO = "mongodb+srv://slperez:UGmmSbut0hsLmWUK@cluster0.6bqcjjp.mongodb.net/ecommerce"
+
+const connection = mongoose.connect(MONGO);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
@@ -43,20 +53,22 @@ socketServer.on('connection', async(socket) => {
     socket.on("addProduct", async(data)=>{
 
         // productos = [...productos, data];
-        const productos = await productManagerFile.addProduct(data)
+        await productModel.create(data)
+        const productos = await productModel.find()
 
         socketServer.emit("products-update", productos)
     })
 
-    socket.on('deleteProduct', async(data)=>{
-        const productosRestantes = await productManagerFile.deleteProduct(data)
-        if (productosRestantes !== "Not found"){
-            socketServer.emit("products-update", productosRestantes)
-        } else {
-            console.log('Id not found')
-        }
+    socket.on('deleteProduct', async(dataId)=>{
+        //await productModel.deleteOne({_id: dataId})
+        //const productosRestantes = await productModel.find()
+        // if (productosRestantes !== "Not found"){
+          //  socketServer.emit("products-update", productosRestantes)
+        // } else {
+        //     console.log('Id not found')
+        // }
     })
-
+ 
 })
 
 

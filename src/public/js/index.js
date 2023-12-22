@@ -39,7 +39,7 @@ const deleteProductForm = document.getElementById('delete-prod-form')
 deleteProductForm.addEventListener('submit', function(e){
     e.preventDefault();
 
-    const idProduct = parseInt(document.getElementById('id-product').value);
+    const idProduct = document.getElementById('id-product').value;
     console.log(idProduct)
 
     socketIndex.emit('deleteProduct', idProduct);
