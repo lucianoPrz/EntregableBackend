@@ -11,6 +11,7 @@ import { viewRouterDB } from './routes/viewsDB.routes.js';
 
 import { ProductManagerFile } from "./dao/managers/ProductManagerFile.js";
 import productModel from './dao/models/product.model.js';
+import messageModel from './dao/models/message.model.js';
 
 
 const PORT = 8080
@@ -67,6 +68,17 @@ socketServer.on('connection', async(socket) => {
         // } else {
         //     console.log('Id not found')
         // }
+    })
+
+    socket.on("chat-message", async(data)=>{
+        const newMessage = {
+            user: socketServer.id,
+            message: data
+        }
+        await messageModel.create(newMessage)
+        const mensajes = await messageModel.find()
+
+        socketServer.emit("chat-messages-update", mensajes)
     })
  
 })

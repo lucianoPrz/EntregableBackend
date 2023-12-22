@@ -7,6 +7,6 @@ const messsageSchema = new mongoose.Schema({
     message: String
 })
 
-const messageModel = new mongoose.Model(collection, messsageSchema)
+const messageModel = mongoose.model(collection, messsageSchema)
 
 export default messageModel;

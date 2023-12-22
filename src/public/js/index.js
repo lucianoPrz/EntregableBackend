@@ -34,7 +34,7 @@ addProductsForm.addEventListener("submit", function(event) {
 
 });
 
-
+/////////////////////////////////////////////////////////////////
 const deleteProductForm = document.getElementById('delete-prod-form')
 deleteProductForm.addEventListener('submit', function(e){
     e.preventDefault();
@@ -45,7 +45,7 @@ deleteProductForm.addEventListener('submit', function(e){
     socketIndex.emit('deleteProduct', idProduct);
 })
 
-
+//////////////////////////////////////////////////////////////////
 const updateUl = document.getElementById("update-container");
 socketIndex.on("products-update", (data)=>{
 
@@ -57,5 +57,24 @@ socketIndex.on("products-update", (data)=>{
         const li = document.createElement("li");
         li.innerText = `${el.title} || ${el.description} || $${el.price}`;
         updateUl.appendChild(li)
+    }
+})
+
+///////////////////////////////////////////////////////////
+const chatInput = document.getElementById("chat-input");
+const sendButton = document.getElementById("send-button");
+
+sendButton.addEventListener("click",function(e){
+    socketIndex.emit("chat-message", chatInput.value);
+})
+
+const chatMessages = document.getElementById("chat-messages");
+
+socketIndex.on("chat-messages-update", (data)=>{
+    chatMessages.innerHTML = "";
+    for (const el of data) {
+        const li = document.createElement("li");
+        li.innerText = `${el.user}: ${el.message}`;
+        chatMessages.appendChild(li)
     }
 })
