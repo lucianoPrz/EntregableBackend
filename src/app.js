@@ -5,9 +5,9 @@ import __dirname from './utils.js';
 import { Server } from 'socket.io';
 
 
-import { cartRouter } from './routes/carts.routes.js';
-import { productRouter } from './routes/products.routes.js';
-import { viewRouter } from './routes/views.routes.js';
+import { cartRouterDB } from './routes/cartsDB.routes.js';
+import { productRouterDB } from './routes/productsDB.routes.js';
+import { viewRouterDB } from './routes/viewsDB.routes.js';
 
 import { ProductManagerFile } from "./dao/managers/ProductManagerFile.js";
 import productModel from './dao/models/product.model.js';
@@ -43,9 +43,9 @@ app.set("views", `${__dirname}/views`)
 
 
 
-app.use('/api/products', productRouter)
-app.use('/api/carts', cartRouter)
-app.use('/', viewRouter)
+app.use('/api/products', productRouterDB)
+app.use('/api/carts', cartRouterDB)
+app.use('/', viewRouterDB)
 
 socketServer.on('connection', async(socket) => {
     console.log(`Nuevo cliente conectado`)
