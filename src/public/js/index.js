@@ -16,7 +16,7 @@ addProductsForm.addEventListener("submit", function(event) {
     const thumbnail = []
 
     // Crear un objeto con la información capturada
-    var producto = {
+    let producto = {
         title: title,
         description: description,
         code: code,
@@ -61,12 +61,15 @@ socketIndex.on("products-update", (data)=>{
 })
 
 ///////////////////////////////////////////////////////////
-const chatInput = document.getElementById("chat-input");
-const sendButton = document.getElementById("send-button");
+const chatForm = document.getElementById("chat-form");
+chatForm.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const message = document.getElementById("chat-input").value;
+    
+    socketIndex.emit('chat-messages', message)
 
-sendButton.addEventListener("click",function(e){
-    socketIndex.emit("chat-message", chatInput.value);
 })
+
 
 const chatMessages = document.getElementById("chat-messages");
 

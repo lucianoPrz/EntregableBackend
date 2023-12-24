@@ -70,9 +70,9 @@ socketServer.on('connection', async(socket) => {
         // }
     })
 
-    socket.on("chat-message", async(data)=>{
+    socket.on('chat-messages', async(data)=>{
         const newMessage = {
-            user: socketServer.id,
+            user: socket.id,
             message: data
         }
         await messageModel.create(newMessage)
