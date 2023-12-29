@@ -1,55 +1,46 @@
 import { Router } from "express";
-import { ProductManagerFile } from "../dao/managers/ProductManagerFile.js";
+import { ProductManagerDB } from "../dao/DBManagers/ProductManagerDB.js";
 import productModel from "../dao/models/product.model.js";
 
 const path = 'products.json'
 const router = Router();
-const productManagerFile = new ProductManagerFile(path);
+const productManagerDB = new ProductManagerDB(path);
 
 router.get('/', async (req, res) => {
     //let products = await productManagerFile.getProducts();
-    let products = await productModel.find();
-    let limit = parseInt(req.query.limit)
+    const products = await productManagerDB.getProducts();
 
-    if (!limit || limit > products.length) {
-        res.json({
-            status: 'success',
-            productos: products
-        })
-    } else {
-        let productsLimit = products.slice(0, limit)
-        res.json({
-            status: 'success',
-            productos: productsLimit
-        })
-    }
+    res.json({
+        status: 'success',
+        productos: products
+    })
 })
 
 router.get('/:pid', async (req, res) => {
     //const products = await productManagerFile.getProducts();
     const pid = req.params.pid
-    let producto = await productModel.find({_id: pid});
+    let producto = await productModel.find({ _id: pid });
 
     //const producto = products.find(prod => prod.id === pid)
 
     if (!producto) {
-        return res.status(400).send({ 
+        return res.status(400).send({
             status: 'error',
-            error: 'No existe el producto' 
+            error: 'No existe el producto'
         })
     }
-    res.send({ 
+    res.send({
         status: 'success',
         producto: producto
-     })
+    })
 })
 
 router.post('/', async (req, res) => {
     //const product = req.body;
     //const products = await productManagerFile.addProduct(product)
-    const {title, description,code, price,  status, stock, category, thumbnail} = req.body
+    const { title, description, code, price, status, stock, category, thumbnail } = req.body
 
-    if(!title || !description || !code || !price || !status || !stock || !category){
+    if (!title || !description || !code || !price || !status || !stock || !category) {
         return res.status(400).send({
             status: 'error',
             message: "Valores incompletos"
@@ -77,7 +68,7 @@ router.put('/:pid', async (req, res) => {
     const pid = req.params.pid
     //const existeProducto = await productManagerFile.getProductById(pid)
 
-    
+
 
     // if (existeProducto === "Not found") {
     //     return res.send({
@@ -86,7 +77,7 @@ router.put('/:pid', async (req, res) => {
     //     })
     // }
 
-    const {title, description,code, price,  status, stock, category, thumbnail} = req.body
+    const { title, description, code, price, status, stock, category, thumbnail } = req.body
 
     const productoActualizado = {
         title,
@@ -99,7 +90,7 @@ router.put('/:pid', async (req, res) => {
         thumbnail
     }
 
-    const result = await productModel.updateOne({_id: pid},{$set: productoActualizado})
+    const result = await productModel.updateOne({ _id: pid }, { $set: productoActualizado })
 
     //const productsUpdate = await productManagerFile.updateProduct(pid, productoActualizado)
 
@@ -113,7 +104,7 @@ router.put('/:pid', async (req, res) => {
 router.delete('/:pid', async (req, res) => {
     const pid = req.params.pid
     //const existeProducto = await productManagerFile.getProductById(pid)
-    const result = await productModel.deleteOne({_id: pid})
+    const result = await productModel.deleteOne({ _id: pid })
 
     // if (existeProducto === "Not found") {
     //     return res.send({

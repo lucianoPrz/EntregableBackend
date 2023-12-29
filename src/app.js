@@ -9,13 +9,13 @@ import { cartRouterDB } from './routes/cartsDB.routes.js';
 import { productRouterDB } from './routes/productsDB.routes.js';
 import { viewRouterDB } from './routes/viewsDB.routes.js';
 
-import { ProductManagerFile } from "./dao/managers/ProductManagerFile.js";
+
 import productModel from './dao/models/product.model.js';
 import messageModel from './dao/models/message.model.js';
 
 
 const PORT = 8080
-const productManagerFile = new ProductManagerFile('products.json')
+
 const app = express();
 
 const MONGO = "mongodb+srv://slperez:UGmmSbut0hsLmWUK@cluster0.6bqcjjp.mongodb.net/ecommerce"
@@ -63,11 +63,8 @@ socketServer.on('connection', async(socket) => {
     socket.on('deleteProduct', async(dataId)=>{
         await productModel.deleteOne({_id: dataId})
         const productosRestantes = await productModel.find()
-        // if (productosRestantes !== "Not found"){
         socketServer.emit("products-update", productosRestantes)
-        // } else {
-        //     console.log('Id not found')
-        // }
+        
     })
 
     socket.on('chat-messages', async(data)=>{

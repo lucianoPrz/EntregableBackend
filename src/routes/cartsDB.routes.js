@@ -1,14 +1,13 @@
 import { Router } from "express";
-import { CartManagerFile} from "../dao/managers/CartManagerFile.js";
+import { CartManagerDB } from "../dao/DBManagers/CartManagerDB.js";
 import cartModel from "../dao/models/cart.model.js";
 
-const path = 'carts.json'
 const router = Router();
-const cartManagerFile = new CartManagerFile(path);
+const cartManagerDB = new CartManagerDB();
 
 router.get('/', async(req, res) => {
-    //const carts = await cartManagerFile.getCarts();
-    const carts = await cartModel.find();
+
+    const carts = await cartManagerDB.getCart()
     res.send({
         status: 'success',
         message: carts
@@ -16,10 +15,10 @@ router.get('/', async(req, res) => {
 })
 
 router.get('/:cid', async(req, res) => {
-    //const carts = await cartManagerFile.getCarts();
+    
     const cid = req.params.cid
-    const cart = await cartModel.find({_id: cid});
-    //const cart = carts.find(cart => cart.id === cid)
+    const cart = await cartManagerDB.getCartsById(cid)
+  
 
     if (!cart) {
         return res.status(400).send({ 
@@ -37,79 +36,20 @@ router.get('/:cid', async(req, res) => {
 })
 
 router.post('/', async(req, res) => {
-    const {products} = req.body;
-    
-    if(!products || Array.isArray(!products)){
-        return res.status(400).send({
-            status: 'error',
-            message: "valores incorrectos"
-        })
-    }
+    const cart = await cartManagerDB.createCart()
 
-    const cart = {
-        products
-    }
-
-    //const carts = await cartManagerFile.addCart(cart);
-    const result = await cartModel.create(cart)
     res.send({
         status: 'success',
-        message: result
+        msg: cart
     })
 })
 
 router.post('/:cid/product/:pid', async(req, res) => {
     const pid = req.params.pid
     const cid = req.params.cid
-
-    //const carts = await cartManagerFile.updateCart(cid, pid)
-    const cart = await cartModel.find({_id: cid});
-
-    if (!cart) {
-        return res.status(400).send({ 
-            status: 'error',
-            error: 'No existe el carrito'
-         })
-    }
-
-    const cartActualizado = {
-        products: cart[0].products
-    }
-
-    console.log(cart[0].products)
-    const indexProdEnCart = cartActualizado.products.findIndex(product => product.id === pid)
-    if(indexProdEnCart !== -1){
-        
-        cartActualizado.products[indexProdEnCart].quantity ++;
-    } else {
-        const product = {
-            id : pid,
-            quantity : 1 
-        }
-        cartActualizado.products.push(product)
-    }
-
-    const result = cartModel.updateOne({_id: cid},{$set: cartActualizado})
-
-    res.send({
-        status: "success",
-        message: result
-    })
-
-    // if (carts === "Not found") {
-    //     return res.send({ 
-    //         status: 'error',
-    //         error: 'No existe el carrito'
-    //      })
-    //     } else {
-    //         res.send({
-    //             status: 'success',
-    //             msg: `Carrito actualizado`,
-    //             carrito: carts
-    //         })
-
-    //     }
-
+    const quantity = req.params.quantity
+    
+    const cart = await cartManagerDB.addProductInCart(pid, cid, quantity)
 })
 
 export { router as cartRouterDB}
