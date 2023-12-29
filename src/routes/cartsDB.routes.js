@@ -7,7 +7,7 @@ const cartManagerDB = new CartManagerDB();
 
 router.get('/', async(req, res) => {
 
-    const carts = await cartManagerDB.getCart()
+    const carts = await cartManagerDB.getCarts()
     res.send({
         status: 'success',
         message: carts
@@ -49,7 +49,12 @@ router.post('/:cid/product/:pid', async(req, res) => {
     const cid = req.params.cid
     const quantity = req.params.quantity
     
-    const cart = await cartManagerDB.addProductInCart(pid, cid, quantity)
+    const result = await cartManagerDB.addProductInCart(pid, cid, quantity)
+
+    res.send({
+        status: 'success',
+        msg: result
+    })
 })
 
 export { router as cartRouterDB}

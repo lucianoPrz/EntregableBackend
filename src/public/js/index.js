@@ -13,7 +13,7 @@ addProductsForm.addEventListener("submit", function(event) {
     const status = true
     const stock = document.getElementById('stock').value;
     const category = "A"
-    const thumbnail = []
+    const thumbnail = ""
 
     // Crear un objeto con la información capturada
     let producto = {

@@ -33,14 +33,14 @@ export default class ProductManagerDB {
         return products;
     }
 
-    updateProduct = async (productId, product) => {
+    updateProduct = async (pid, product) => {
 
         const result = await productModel.updateOne({_id: pid},{$set: product})
 
         return result;
     }
 
-    deleteProduct = async (productId) => {
+    deleteProduct = async (pid) => {
         
         const result = await productModel.deleteOne({_id: pid})
         return result;

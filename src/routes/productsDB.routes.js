@@ -2,24 +2,45 @@ import { Router } from "express";
 import { ProductManagerDB } from "../dao/DBManagers/ProductManagerDB.js";
 import productModel from "../dao/models/product.model.js";
 
-const path = 'products.json'
 const router = Router();
-const productManagerDB = new ProductManagerDB(path);
+const productManagerDB = new ProductManagerDB();
 
 router.get('/', async (req, res) => {
-    //let products = await productManagerFile.getProducts();
-    const products = await productManagerDB.getProducts();
+   
+    try {
 
-    res.json({
-        status: 'success',
-        productos: products
-    })
+        const { limit, page, sort, category, price } = req.query
+        const options = {
+            limit: limit || 3,
+            page: page || 1,
+            sort: {price: sort === "asc" ? 1 : -1},
+            lean: true
+        }
+
+        const products = await productManagerDB.getProducts(options);
+
+        if(products.hasPrevPage){
+            products.prevLink = `/api/products?page=${products.prevPage}` ;
+        }
+        if(products.hasNextPage){
+            products.nextLink = `/api/products?page=${products.nextPage}`;
+        }
+    
+        res.json({
+            status: 'success',
+            products: products
+        })
+        
+    } catch (error) {
+        console.log(error)
+    }
+
 })
 
 router.get('/:pid', async (req, res) => {
     //const products = await productManagerFile.getProducts();
     const pid = req.params.pid
-    let producto = await productModel.find({ _id: pid });
+    let producto = await productManagerDB.getProductById(pid);
 
     //const producto = products.find(prod => prod.id === pid)
 
@@ -56,7 +77,7 @@ router.post('/', async (req, res) => {
         category,
         thumbnail
     }
-    const result = await productModel.create(product)
+    const result = await productManagerDB.addProduct(product)
 
     res.send({
         status: 'success',
@@ -90,7 +111,7 @@ router.put('/:pid', async (req, res) => {
         thumbnail
     }
 
-    const result = await productModel.updateOne({ _id: pid }, { $set: productoActualizado })
+    const result = await productManagerDB.updateProduct(pid, productoActualizado)
 
     //const productsUpdate = await productManagerFile.updateProduct(pid, productoActualizado)
 
@@ -103,17 +124,7 @@ router.put('/:pid', async (req, res) => {
 
 router.delete('/:pid', async (req, res) => {
     const pid = req.params.pid
-    //const existeProducto = await productManagerFile.getProductById(pid)
-    const result = await productModel.deleteOne({ _id: pid })
-
-    // if (existeProducto === "Not found") {
-    //     return res.send({
-    //         status: 'error',
-    //         msg: `Producto inexistente`
-    //     })
-    // }
-
-    //const productsDelete = await productManagerFile.deleteProduct(pid)
+    const result = await productManagerDB.deleteProduct(pid)
 
     res.send({
         status: 'success',
