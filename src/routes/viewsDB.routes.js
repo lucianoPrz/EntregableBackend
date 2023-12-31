@@ -1,10 +1,14 @@
 import { Router} from "express";
+
 import { ProductManagerDB } from "../dao/DBManagers/ProductManagerDB.js";
+import { CartManagerDB } from "../dao/DBManagers/CartManagerDB.js";
+
 import productModel from "../dao/models/product.model.js";
 import messageModel from "../dao/models/message.model.js";
 
 const router = Router();
 const productManagerDB = new ProductManagerDB();
+const cartManagerDB = new CartManagerDB();
 
 router.get('/', async (req, res) => {
     const products = await productManagerDB.getProducts();
@@ -49,6 +53,19 @@ router.get('/products', async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+});
+
+router.get('/cart/:cid', async (req, res) => {
+    const cid = req.params.cid;
+
+    const cart = await cartManagerDB.getCartsById(cid);
+
+    const products = cart[0].products
+    console.log(products)
+
+
+    res.render('carts', {products})
+
 });
 
 export { router as viewRouterDB}

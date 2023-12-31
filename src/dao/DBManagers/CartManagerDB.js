@@ -10,7 +10,7 @@ class CartManagerDB {
     }
 
     getCartsById = async (cid) => {
-        const cart = await cartModel.find({_id: cid})
+        const cart = await cartModel.find({_id: cid}).lean(true)
 
         return cart
     }
