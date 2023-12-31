@@ -28,7 +28,15 @@ router.get('/', async (req, res) => {
     
         res.json({
             status: 'success',
-            products: products
+            payload: products,
+            totalPages: products.totalPages,
+            prevPage: products.prevPage,
+            nextPage: products.nextPage,
+            page: products.page,
+            hasPrevPage: products.hasPrevPage,
+            hasNextPage: products.hasNextPage,
+            prevLink: products.hasPrevPage ? `/api/products?page=${products.prevPage}` : null,
+            nextLink: products.hasNextPage ? `/api/products?page=${products.nextPage}` : null,
         })
         
     } catch (error) {

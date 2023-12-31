@@ -26,12 +26,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
 
-const getProductos = async() => {
-    const productos = await productManagerFile.getProducts();
-    return productos
-};
-let productos =[]
-
 const httpServer = app.listen(PORT, ()=>{
     console.log(`Server listening on ${PORT}`)
 })

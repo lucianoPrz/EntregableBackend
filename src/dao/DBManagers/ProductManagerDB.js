@@ -10,7 +10,10 @@ export default class ProductManagerDB {
                 //filtrado
             },
             {
-                options
+                limit: options.limit,
+                page: options.page,
+                sort: options.sort,
+                lean: true
             }
         );
 
