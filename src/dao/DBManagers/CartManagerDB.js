@@ -60,6 +60,33 @@ class CartManagerDB {
     
         return cart
     };
+
+    deleteProdInCart = async (pid, cid, quantity = 1) => {
+        console.log("antes de cart")
+        const cart = await cartModel.findOne({_id: cid});
+        console.log(cart)
+        if (!cart) {
+            console.log(!cart)
+            return {
+                status: 'error',
+                msg: `El carrito ${cid} no existe`
+            };
+        }
+
+        const indexProdInCart = cart.products.findIndex(prod => prod.product == pid);
+        if (indexProdInCart == -1) {
+            return {
+                status: 'error',
+                msg: `El producto ${pid} no existe el carrito ${cid}`
+            }
+        }else {
+            cart.products.splice(indexProdInCart, 1);
+        }
+
+        await cart.save();
+
+        return cart
+    };
     
 }
 

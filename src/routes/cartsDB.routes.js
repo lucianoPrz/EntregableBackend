@@ -57,4 +57,17 @@ router.post('/:cid/product/:pid', async(req, res) => {
     })
 })
 
+router.delete('/:cid/product/:pid', async(req, res) => {
+    const pid = req.params.pid
+    const cid = req.params.cid
+    const quantity = req.params.quantity
+    
+    const result = await cartManagerDB.deleteProdInCart(pid, cid, quantity)
+
+    res.send({
+        status: 'success',
+        msg: result
+    })
+});
+
 export { router as cartRouterDB}
