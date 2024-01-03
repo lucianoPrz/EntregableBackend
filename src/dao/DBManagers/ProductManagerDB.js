@@ -7,7 +7,7 @@ export default class ProductManagerDB {
     getProducts = async (options) => {
         const products = await productModel.paginate(
             {
-                //filtrado
+                
             },
             {
                 limit: options.limit,

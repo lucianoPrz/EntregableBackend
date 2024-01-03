@@ -11,8 +11,9 @@ router.get('/', async (req, res) => {
 
         const { limit, page, sort, category, price } = req.query
         const options = {
-            limit: limit || 3,
-            page: page || 1,
+            category: category ?? "",
+            limit: limit  ?? 10,
+            page: page ?? 1,
             sort: {price: sort === "asc" ? 1 : -1},
             lean: true
         }
