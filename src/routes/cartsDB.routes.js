@@ -70,4 +70,41 @@ router.delete('/:cid/product/:pid', async(req, res) => {
     })
 });
 
+router.put('/:cid', async(req, res) => {
+    const pid = req.params.pid
+    const products = req.body
+    
+    const result = await cartManagerDB.addManyProductsInCart(cid, products)
+
+    res.send({
+        status: 'success',
+        msg: result
+    })
+});
+
+router.put('/:cid/product/:pid', async(req, res) => {
+    const pid = req.params.pid
+    const cid = req.params.cid
+    const quantity = req.body.quantity
+    
+    const result = await cartManagerDB.updateProductInCart(pid, cid, quantity)
+
+    res.send({
+        status: 'success',
+        msg: result
+    })
+});
+
+router.delete('/:cid', async(req, res) => {
+    const pid = req.params.pid
+    
+    const result = await cartManagerDB.emptyCart(cid)
+
+    res.send({
+        status: 'success',
+        msg: result
+    })
+});
+
+
 export { router as cartRouterDB}

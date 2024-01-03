@@ -62,7 +62,6 @@ class CartManagerDB {
     };
 
     deleteProdInCart = async (pid, cid, quantity = 1) => {
-        console.log("antes de cart")
         const cart = await cartModel.findOne({_id: cid});
         console.log(cart)
         if (!cart) {
@@ -87,7 +86,83 @@ class CartManagerDB {
 
         return cart
     };
+
+    addManyProductsInCart = async (cid, products) => {
+        const cart = await cartModel.findOne({_id: cid});
+        console.log(cart)
+        if (!cart) {
+            console.log(!cart)
+            return {
+                status: 'error',
+                msg: `El carrito ${cid} no existe`
+            };
+        }
+        let productsInCart = cart.products;
+        for (const prod of products) {
+            const indexProduct = productsInCart.findIndex(product => product.product._id == prod._id);
+        
+            if (indexProduct == -1) {
+                const newProduct = {
+                    product: prod._id,
+                    quantity: 1 
+                };
+                cart.products.push(newProduct);
+            } else {
+                console.log("else")
+                cart.products[indexProduct].quantity++;
+            }
+        }
+
+        await cart.save();
+
+        return cart
+    };
+
+    updateProductInCart = async(pid, cid, quantity) => {
+        const cart = await cartModel.findOne({_id: cid});
+        console.log(cart)
+        if (!cart) {
+            console.log(!cart)
+            return {
+                status: 'error',
+                msg: `El carrito ${cid} no existe`
+            };
+        }
+
+        let productsInCart = cart.products;
+        const indexProduct = productsInCart.findIndex(product => product.product == pid);
     
+        if (indexProduct == -1) {
+            return {
+                status: 'error',
+                msg: `El producto ${pid} no existe en el carrito ${cid}`
+            };
+        } else {
+            cart.products[indexProduct].quantity += quantity;
+        }
+        
+        await cart.save();
+    
+        return cart
+    };
+
+    emptyCart = async(cid) => {
+        const cart = await cartModel.findOne({_id: cid});
+        console.log(cart)
+        if (!cart) {
+            console.log(!cart)
+            return {
+                status: 'error',
+                msg: `El carrito ${cid} no existe`
+            };
+        }
+
+        cart.products = [];
+
+        await cart.save();
+
+        return cart;
+    };
 }
 
 
