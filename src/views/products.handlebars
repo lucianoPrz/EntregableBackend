@@ -1,4 +1,11 @@
 <div>
+
+    <h1>Bienvenido {{user.full_name}} </h1>
+    {{#if user.isAdmin}}
+        <h2>Perfil Admin</h2>
+    {{/if}}    
+    <a href="/api/sessions/logout"><button>Salir</button></a>
+
     <h1>Productos</h1>
     <div class="container-fluid d-flex justify-content-around">
         {{#each products.docs}}

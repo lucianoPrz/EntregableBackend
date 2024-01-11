@@ -47,7 +47,7 @@ router.get('/products', async (req, res) => {
             products.nextLink = `/products?page=${products.nextPage}`;
         }
 
-        res.render('products', {products})
+        res.render('products', {products, user: req.session.user})
     
         
     } catch (error) {
@@ -67,5 +67,13 @@ router.get('/cart/:cid', async (req, res) => {
     res.render('carts', {products})
 
 });
+
+router.get('/register', (req, res) => {
+    res.render('register')
+})
+
+router.get('/login', (req, res) => {
+    res.render('login')
+})
 
 export { router as viewRouterDB}

@@ -3,11 +3,13 @@ import mongoose from 'mongoose';
 import {engine} from 'express-handlebars'
 import __dirname from './utils.js';
 import { Server } from 'socket.io';
-
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 import { cartRouterDB } from './routes/cartsDB.routes.js';
 import { productRouterDB } from './routes/productsDB.routes.js';
 import { viewRouterDB } from './routes/viewsDB.routes.js';
+import sessionRouter from './routes/sessions.routes.js'
 
 
 import productModel from './dao/models/product.model.js';
@@ -26,6 +28,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
 
+app.use(session({
+    store: new MongoStore({
+        mongoUrl: MONGO,
+        ttl: 3600
+    }),
+    secret: "CoderSecret",
+    resave: false,
+    saveUninitialized: false
+}))
+
 const httpServer = app.listen(PORT, ()=>{
     console.log(`Server listening on ${PORT}`)
 })
@@ -41,6 +53,7 @@ app.set("views", `${__dirname}/views`)
 app.use('/api/products', productRouterDB)
 app.use('/api/carts', cartRouterDB)
 app.use('/', viewRouterDB)
+app.use('/api/sessions', sessionRouter)
 
 socketServer.on('connection', async(socket) => {
     console.log(`Nuevo cliente conectado`)
