@@ -10,12 +10,20 @@ const router = Router();
 const productManagerDB = new ProductManagerDB();
 const cartManagerDB = new CartManagerDB();
 
-router.get('/', async (req, res) => {
-    const products = await productManagerDB.getProducts();
-   // console.log(products)
+const publicAccess = (req, res, next) => {
+    if(req.session.user){
+        return res.redirect('/')
+    }
+    next();
+};
 
-    res.render('home', { products: products});
-})
+const privateAccess = (req, res, next) => {
+    if(!req.session.user){
+        return res.redirect('/login')
+    }
+    next();
+};
+
 
 router.get('/realtimeproducts', async (req, res) => {
     const products = await productManagerDB.getProducts();
@@ -27,7 +35,7 @@ router.get('/chat', async (req, res) => {
     res.render('chat', { })
 })
 
-router.get('/products', async (req, res) => {
+router.get('/', privateAccess,async (req, res) => {
     try {
 
         let { limit, page, sort, category, price } = req.query
@@ -68,11 +76,11 @@ router.get('/cart/:cid', async (req, res) => {
 
 });
 
-router.get('/register', (req, res) => {
+router.get('/register', publicAccess,(req, res) => {
     res.render('register')
 })
 
-router.get('/login', (req, res) => {
+router.get('/login', publicAccess,(req, res) => {
     res.render('login')
 })
 
