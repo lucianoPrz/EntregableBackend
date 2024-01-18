@@ -5,11 +5,13 @@ import __dirname from './utils.js';
 import { Server } from 'socket.io';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import passport from 'passport';
 
 import { cartRouterDB } from './routes/cartsDB.routes.js';
 import { productRouterDB } from './routes/productsDB.routes.js';
 import { viewRouterDB } from './routes/viewsDB.routes.js';
 import sessionRouter from './routes/sessions.routes.js'
+import inicializePassport from './config/passport.config.js';
 
 
 import productModel from './dao/models/product.model.js';
@@ -37,6 +39,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+
+inicializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 const httpServer = app.listen(PORT, ()=>{
     console.log(`Server listening on ${PORT}`)
