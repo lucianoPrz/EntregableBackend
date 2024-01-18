@@ -48,39 +48,59 @@ router.get('/failregister', async(req, res) => {
     res.send({ error: 'Fallo el registro' });
 });
 
-router.post('/login', async (req, res) => {
-    const {email, password} = req.body
-    const user = await userModel.findOne({email});
+// router.post('/login', async (req, res) => {
+//     const {email, password} = req.body
+//     const user = await userModel.findOne({email});
 
-    if (!user) {
-        return res.status(400)
-        .send({
-            status: 'error',
-            error: 'datos incorrectos'
-        })
+//     if (!user) {
+//         return res.status(400)
+//         .send({
+//             status: 'error',
+//             error: 'datos incorrectos'
+//         })
+//     }
+
+//     const isValidPassword = validatePassword(password, user)
+
+//     if(!isValidPassword){
+//         return res.status(400)
+//         .send({
+//             status: 'error',
+//             error: 'datos incorrectos'
+//         })
+//     }
+
+//     req.session.user = {
+//         full_name: `${user.first_name} ${user.last_name}`,
+//         email: user.email
+//     }
+
+//     res.send({
+//         status: 'success',
+//         payload: req.session.user,
+//         msg: 'Mi primer login'
+//     })
+
+// })
+
+router.post('/login', passport.authenticate("login", {failureRedirect: '/api/sessions/faillogin'}),
+async (req, res) => {
+    if(!req.user){
+        return res.status(400).send({status: "error"})
     }
-
-    const isValidPassword = validatePassword(password, user)
-
-    if(!isValidPassword){
-        return res.status(400)
-        .send({
-            status: 'error',
-            error: 'datos incorrectos'
-        })
-    }
-
     req.session.user = {
-        full_name: `${user.first_name} ${user.last_name}`,
-        email: user.email
+        full_name: `${req.user.first_name} ${req.user.last_name}`,
+        email: req.user.email
     }
-
     res.send({
-        status: 'success',
-        payload: req.session.user,
-        msg: 'Mi primer login'
+        status: "success",
+        paylaod: req.user
     })
+}
+)
 
+router.get("/faillogin", (req, res) => {
+    res.send({error: "fail login"});
 })
 
 router.get('/logout', async (req, res) => {
