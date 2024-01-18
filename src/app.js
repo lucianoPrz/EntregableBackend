@@ -20,7 +20,7 @@ const PORT = 8080
 
 const app = express();
 
-const MONGO = "mongodb+srv://slperez:UGmmSbut0hsLmWUK@cluster0.6bqcjjp.mongodb.net/ecommerce"
+const MONGO = "mongodb+srv://slperez:slperez@cluster0.6bqcjjp.mongodb.net/ecommerce"
 
 const connection = mongoose.connect(MONGO);
 
