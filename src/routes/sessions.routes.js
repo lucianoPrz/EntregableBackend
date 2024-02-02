@@ -125,6 +125,21 @@ router.get('/logout', async (req, res) => {
     })
 })
 
+router.get('/current', async (req, res) => {
+    if(!req.session.user) {
+        return res.status(400).send({status: "error"})
+    }
+    let user = {
+        full_name: req.session.user.full_name,
+        email: req.session.user.email
+    }
+
+    res.send({
+        status: "success",
+        paylaod: user
+    })
+})
+
 
 
 
