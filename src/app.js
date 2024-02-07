@@ -6,6 +6,7 @@ import { Server } from 'socket.io';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
+import { options } from './config/config.js';
 
 import { cartRouterDB } from './routes/cartsDB.routes.js';
 import { productRouterDB } from './routes/productsDB.routes.js';
@@ -18,11 +19,11 @@ import productModel from './dao/models/product.model.js';
 import messageModel from './dao/models/message.model.js';
 
 
-const PORT = 8080
+const PORT = options.server.port;
 
 const app = express();
 
-const MONGO = "mongodb+srv://slperez:slperez@cluster0.6bqcjjp.mongodb.net/ecommerce"
+const MONGO = options.mongo.url
 
 const connection = mongoose.connect(MONGO);
 
