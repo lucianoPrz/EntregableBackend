@@ -1,10 +1,8 @@
 import { Router } from "express";
 import { ProductController } from "../controller/product.controller.js";
-import { ProductManagerDB } from "../dao/DBManagers/ProductManagerDB.js";
-import productModel from "../dao/models/product.model.js";
+
 
 const router = Router();
-const productManagerDB = new ProductManagerDB();
 
 router.get('/', ProductController.getProducts);
 

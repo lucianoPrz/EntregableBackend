@@ -65,7 +65,8 @@ class ProductController {
 
     static saveProduct = async (req, res) => {
 
-        const { title, description, code, price, status, stock, category, thumbnail } = req.body
+        try {
+            const { title, description, code, price, status, stock, category, thumbnail } = req.body
     
         if (!title || !description || !code || !price || !status || !stock || !category) {
             return res.status(400).send({
@@ -89,10 +90,30 @@ class ProductController {
             status: 'success',
             message: result
         })
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({
+                status: 'error',
+                error: 'Error post'
+            })
+        }
+
+        
     }
 
     static updateProduct = async (req, res) => {
-        const pid = req.params.pid
+        
+        try {
+            const pid = req.params.pid
+
+        let producto = await productManagerDB.getProductById(pid);
+    
+        if (!producto) {
+            return res.status(400).send({
+                status: 'error',
+                error: 'No existe el producto'
+            })
+        }
     
         const { title, description, code, price, status, stock, category, thumbnail } = req.body
     
@@ -115,11 +136,28 @@ class ProductController {
             msg: `Producto actualizado`,
             productos: result
         })
+        } catch (error) {
+            return res.status(400).send({
+                status: 'error',
+                error: 'error en put'
+            })
+        }
+
+        
     }
 
     static deleteProduct = async (req, res) => {
         const pid = req.params.pid
         const result = await productManagerDB.deleteProduct(pid)
+
+        let producto = await productManagerDB.getProductById(pid);
+    
+        if (!producto) {
+            return res.status(400).send({
+                status: 'error',
+                error: 'No existe el producto'
+            })
+        }
     
         res.send({
             status: 'success',
