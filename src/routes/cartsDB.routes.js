@@ -1,17 +1,11 @@
 import { Router } from "express";
 import { CartManagerDB } from "../dao/DBManagers/CartManagerDB.js";
+import { CartController } from "../controller/cart.controller.js";
 
 const router = Router();
 const cartManagerDB = new CartManagerDB();
 
-router.get('/', async(req, res) => {
-
-    const carts = await cartManagerDB.getCarts()
-    res.send({
-        status: 'success',
-        message: carts
-    })
-})
+router.get('/', CartController.getCarts)
 
 router.get('/:cid', async(req, res) => {
     
