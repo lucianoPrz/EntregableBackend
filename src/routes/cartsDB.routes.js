@@ -7,97 +7,19 @@ const cartManagerDB = new CartManagerDB();
 
 router.get('/', CartController.getCarts)
 
-router.get('/:cid', async(req, res) => {
-    
-    const cid = req.params.cid
-    const cart = await cartManagerDB.getCartsById(cid)
-  
+router.get('/:cid', CartController.getCartById)
 
-    if (!cart) {
-        return res.status(400).send({ 
-            status: 'error',
-            error: 'No existe el carrito'
-         })
-    } else {
-        res.send({
-            status: 'success',
-            message: cart
-        })
-    }
+router.post('/', CartController.saveCart)
 
-    
-})
+router.post('/:cid/product/:pid', CartController.saveProductInCart)
 
-router.post('/', async(req, res) => {
-    const cart = await cartManagerDB.createCart()
+router.delete('/:cid/product/:pid', CartController.deleteProductInCart);
 
-    res.send({
-        status: 'success',
-        msg: cart
-    })
-})
+router.put('/:cid', CartController.saveManyProductInCart);
 
-router.post('/:cid/product/:pid', async(req, res) => {
-    const pid = req.params.pid
-    const cid = req.params.cid
-    const quantity = req.params.quantity
-    
-    const result = await cartManagerDB.addProductInCart(pid, cid, quantity)
+router.put('/:cid/product/:pid', CartController.updateProductInCart);
 
-    res.send({
-        status: 'success',
-        msg: result
-    })
-})
-
-router.delete('/:cid/product/:pid', async(req, res) => {
-    const pid = req.params.pid
-    const cid = req.params.cid
-    const quantity = req.params.quantity
-    
-    const result = await cartManagerDB.deleteProdInCart(pid, cid, quantity)
-
-    res.send({
-        status: 'success',
-        msg: result
-    })
-});
-
-router.put('/:cid', async(req, res) => {
-    const pid = req.params.pid
-    const products = req.body
-    
-    const result = await cartManagerDB.addManyProductsInCart(cid, products)
-
-    res.send({
-        status: 'success',
-        msg: result
-    })
-});
-
-router.put('/:cid/product/:pid', async(req, res) => {
-    const pid = req.params.pid
-    const cid = req.params.cid
-    const quantity = req.body.quantity
-    
-    const result = await cartManagerDB.updateProductInCart(pid, cid, quantity)
-
-    res.send({
-        status: 'success',
-        msg: result
-    })
-});
-
-router.delete('/:cid', async(req, res) => {
-    const pid = req.params.pid
-    
-    const result = await cartManagerDB.emptyCart(cid)
-
-    res.send({
-        status: 'success',
-        msg: result
-    })
-});
+router.delete('/:cid', CartController.emptyCart);
 
 
 export { router as cartRouterDB}
