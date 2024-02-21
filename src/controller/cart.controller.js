@@ -1,5 +1,4 @@
-import { CartManagerDB } from "../dao/DBManagers/CartManagerDB.js";
-
+import { CartManagerDB } from "../dao/managers/mongo/CartManagerDB.js";
 const cartManagerDB = new CartManagerDB();
 
 class CartController {

@@ -1,7 +1,7 @@
 import { Router} from "express";
 
-import { ProductManagerDB } from "../dao/DBManagers/ProductManagerDB.js";
-import { CartManagerDB } from "../dao/DBManagers/CartManagerDB.js";
+import { ProductManagerDB } from "../dao/managers/mongo/ProductManagerDB.js";
+import { CartManagerDB } from "../dao/managers/mongo/CartManagerDB.js";
 
 import productModel from "../dao/models/product.model.js";
 import messageModel from "../dao/models/message.model.js";
@@ -49,10 +49,10 @@ router.get('/', privateAccess,async (req, res) => {
         const products = await productManagerDB.getProducts(options);
 
         if(products.hasPrevPage){
-            products.prevLink = `/products?page=${products.prevPage}` ;
+            products.prevLink = `/?page=${products.prevPage}` ;
         }
         if(products.hasNextPage){
-            products.nextLink = `/products?page=${products.nextPage}`;
+            products.nextLink = `/?page=${products.nextPage}`;
         }
 
         res.render('products', {products, user: req.session.user})

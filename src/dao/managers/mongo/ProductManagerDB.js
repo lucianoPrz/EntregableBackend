@@ -1,6 +1,6 @@
-import productModel from "../models/product.model.js"
+import productModel from "../../models/product.model.js"
 
-export default class ProductManagerDB {
+class ProductManagerDB {
     
 
     // retorna todos los productos registrados

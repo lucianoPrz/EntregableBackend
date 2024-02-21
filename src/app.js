@@ -7,6 +7,7 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import { options } from './config/config.js';
+import { connectDB } from './config/dbConnection.js';
 
 import { cartRouterDB } from './routes/cartsDB.routes.js';
 import { productRouterDB } from './routes/productsDB.routes.js';
@@ -25,7 +26,9 @@ const app = express();
 
 const MONGO = options.mongo.url
 
-const connection = mongoose.connect(MONGO);
+// const connection = mongoose.connect(MONGO);
+
+connectDB()
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
@@ -36,7 +39,7 @@ app.use(session({
         mongoUrl: MONGO,
         ttl: 3600
     }),
-    secret: "CoderSecret",
+    secret: options.mongo.secret,
     resave: false,
     saveUninitialized: false
 }))
