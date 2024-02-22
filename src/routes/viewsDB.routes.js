@@ -2,6 +2,7 @@ import { Router} from "express";
 
 import { ProductManagerDB } from "../dao/managers/mongo/ProductManagerDB.js";
 import { CartManagerDB } from "../dao/managers/mongo/CartManagerDB.js";
+import { checkRole } from "../middlewares/auth.js";
 
 import productModel from "../dao/models/product.model.js";
 import messageModel from "../dao/models/message.model.js";
@@ -31,7 +32,7 @@ router.get('/realtimeproducts', async (req, res) => {
     res.render('realTimeProducts', { products: products.docs});
 })
 
-router.get('/chat', async (req, res) => {
+router.get('/chat', checkRole(["user"]),async (req, res) => {
     res.render('chat', { })
 })
 

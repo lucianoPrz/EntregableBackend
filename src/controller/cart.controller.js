@@ -1,10 +1,9 @@
-import { CartManagerDB } from "../dao/managers/mongo/CartManagerDB.js";
-const cartManagerDB = new CartManagerDB();
+import { cartService } from "../repository/index.js";
 
 class CartController {
     static getCarts = async(req, res) => {
 
-        const carts = await cartManagerDB.getCarts()
+        const carts = await cartService.getCarts()
         res.send({
             status: 'success',
             message: carts
@@ -14,7 +13,7 @@ class CartController {
     static getCartById = async(req, res) => {
     
         const cid = req.params.cid
-        const cart = await cartManagerDB.getCartsById(cid)
+        const cart = await cartService.getCartsById(cid)
       
     
         if (!cart) {
@@ -33,7 +32,7 @@ class CartController {
     }
 
     static saveCart = async(req, res) => {
-        const cart = await cartManagerDB.createCart()
+        const cart = await cartService.createCart()
     
         res.send({
             status: 'success',
@@ -46,7 +45,7 @@ class CartController {
         const cid = req.params.cid
         const quantity = req.params.quantity
         
-        const result = await cartManagerDB.addProductInCart(pid, cid, quantity)
+        const result = await cartService.addProductInCart(pid, cid, quantity)
     
         res.send({
             status: 'success',
@@ -59,7 +58,7 @@ class CartController {
         const cid = req.params.cid
         const quantity = req.params.quantity
         
-        const result = await cartManagerDB.deleteProdInCart(pid, cid, quantity)
+        const result = await cartService.deleteProdInCart(pid, cid, quantity)
     
         res.send({
             status: 'success',
@@ -71,7 +70,7 @@ class CartController {
         const cid = req.params.cid
         const products = req.body
         
-        const result = await cartManagerDB.addManyProductsInCart(cid, products)
+        const result = await cartService.addManyProductsInCart(cid, products)
     
         res.send({
             status: 'success',
@@ -84,7 +83,7 @@ class CartController {
         const cid = req.params.cid
         const quantity = req.body.quantity
         
-        const result = await cartManagerDB.updateProductInCart(pid, cid, quantity)
+        const result = await cartService.updateProductInCart(pid, cid, quantity)
     
         res.send({
             status: 'success',
@@ -95,7 +94,7 @@ class CartController {
     static emptyCart = async(req, res) => {
         const cid = req.params.cid
         
-        const result = await cartManagerDB.emptyCart(cid)
+        const result = await cartService.emptyCart(cid)
     
         res.send({
             status: 'success',

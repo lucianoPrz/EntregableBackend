@@ -1,6 +1,5 @@
 import {ProductManagerDB} from "../dao/managers/mongo/ProductManagerDB.js";
-
-const productManagerDB = new ProductManagerDB();
+import { productService } from "../repository/index.js";
 
 class ProductController {
     static getProducts = async (req, res) => {
@@ -16,7 +15,7 @@ class ProductController {
                 lean: true
             }
     
-            const products = await productManagerDB.getProducts(options);
+            const products = await productService.getProducts(options);
     
             if(products.hasPrevPage){
                 products.prevLink = `/api/products?page=${products.prevPage}` ;
@@ -47,7 +46,7 @@ class ProductController {
     static getProductById = async (req, res) => {
         //const products = await productManagerFile.getProducts();
         const pid = req.params.pid
-        let producto = await productManagerDB.getProductById(pid);
+        let producto = await productService.getProductById(pid);
     
         //const producto = products.find(prod => prod.id === pid)
     
@@ -84,7 +83,7 @@ class ProductController {
             category,
             thumbnail
         }
-        const result = await productManagerDB.addProduct(product)
+        const result = await productService.addProduct(product)
     
         res.send({
             status: 'success',
@@ -106,7 +105,7 @@ class ProductController {
         try {
             const pid = req.params.pid
 
-        let producto = await productManagerDB.getProductById(pid);
+        let producto = await productService.getProductById(pid);
     
         if (!producto) {
             return res.status(400).send({
@@ -128,7 +127,7 @@ class ProductController {
             thumbnail
         }
     
-        const result = await productManagerDB.updateProduct(pid, productoActualizado)
+        const result = await productService.updateProduct(pid, productoActualizado)
     
     
         res.send({
@@ -148,9 +147,9 @@ class ProductController {
 
     static deleteProduct = async (req, res) => {
         const pid = req.params.pid
-        const result = await productManagerDB.deleteProduct(pid)
+        const result = await productService.deleteProduct(pid)
 
-        let producto = await productManagerDB.getProductById(pid);
+        let producto = await productService.getProductById(pid);
     
         if (!producto) {
             return res.status(400).send({

@@ -61,7 +61,7 @@ class CartManagerDB {
         return cart
     };
 
-    deleteProdInCart = async (pid, cid, quantity = 1) => {
+    deleteProdInCart = async (pid, cid) => {
         const cart = await cartModel.findOne({_id: cid});
         console.log(cart)
         if (!cart) {

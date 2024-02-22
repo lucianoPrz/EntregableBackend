@@ -1,4 +1,4 @@
-import userModel from "../models/user.model.js";
+import userModel from "../../models/user.model.js";
 
 export default class User{
     constructor(){
@@ -14,6 +14,7 @@ export default class User{
     };
     getBy = async (params) => {
         let result = await userModel.find(params).lean();
+        return result
     };
     updateUser = async (id, user) => {
         delete user._id;
