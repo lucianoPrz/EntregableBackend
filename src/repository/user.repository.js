@@ -8,6 +8,10 @@ export class UserRepository{
         const users = await this.dao.getAll();
         return users;
     }
+    async getUserDto(user){
+        const userDtoFront = new GetUserDTO(user);
+        return userDtoFront;
+    }
     async createUser(contact){
         const userDto = new CreateUserDto(contact);
         const userCreated = await this.dao.saveUser(userDto);

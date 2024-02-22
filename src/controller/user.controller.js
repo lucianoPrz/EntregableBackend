@@ -1,3 +1,4 @@
+import { userService } from "../repository/index.js";
 
 class UserController {
     static register = async(req, res) => {
@@ -59,10 +60,12 @@ class UserController {
             full_name: req.session.user.full_name,
             email: req.session.user.email
         }
-    
+        
+        let userDtoFront = await userService.getUserDto(user)
+
         res.send({
             status: "success",
-            paylaod: user
+            paylaod: userDtoFront
         })
     }
 }
