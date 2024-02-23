@@ -1,4 +1,4 @@
-import { cartService } from "../repository/index.js";
+import { cartService, productService, ticketService } from "../repository/index.js";
 
 class CartController {
     static getCarts = async(req, res) => {
@@ -100,6 +100,45 @@ class CartController {
             status: 'success',
             msg: result
         })
+    }
+
+    static purchase = async(req,res)=>{
+        try {
+            const cartId = req.params.cid;
+            const email = req.body.email;
+            const cart = await cartService.getCartsById(cartId);
+            if(cart){
+                if(!cart.products.length){
+                    return res.send("es necesario que agrege productos antes de realizar la compra")
+                }
+                const ticketProducts = [];
+                const rejectedProducts = [];
+                for(let i=0; i<cart.products.length;i++){
+                    const cartProduct = cart.products[i];
+                    const productDB = await productService.getProductById(cartProduct.id);
+                    //comparar la cantidad de ese producto en el carrito con el stock del producto
+                    if(cartProduct.quantity<=productDB.stock){
+                        ticketProducts.push(cartProduct);
+                    } else {
+                        rejectedProducts.push(cartProduct);
+                    }
+                }
+                console.log("ticketProducts",ticketProducts)
+                console.log("rejectedProducts",rejectedProducts)
+                const newTicket = {
+                    code:uuidv4(),
+                    purchase_datetime: new Date().toLocaleString(),
+                    amount:500,
+                    purchaser: req.user.email
+                }
+                const ticketCreated = await ticketService.createTicket(newTicket);
+                res.send(ticketCreated)
+            } else {
+                res.send("el carrito no existe")
+            }
+        } catch (error) {
+            res.send(error.message)
+        }
     }
 }
 

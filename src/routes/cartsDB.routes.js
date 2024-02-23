@@ -22,5 +22,7 @@ router.put('/:cid/product/:pid', checkRole(["user"]),CartController.updateProduc
 
 router.delete('/:cid', CartController.emptyCart);
 
+router.post("/:cid/purchase", CartController.purchase);
+
 
 export { router as cartRouterDB}
