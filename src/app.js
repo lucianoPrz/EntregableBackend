@@ -12,6 +12,7 @@ import { connectDB } from './config/dbConnection.js';
 import { cartRouterDB } from './routes/cartsDB.routes.js';
 import { productRouterDB } from './routes/productsDB.routes.js';
 import { viewRouterDB } from './routes/viewsDB.routes.js';
+import { mockRouter } from './routes/mocks.routes.js';
 import sessionRouter from './routes/sessions.routes.js'
 import inicializePassport from './config/passport.config.js';
 
@@ -65,6 +66,7 @@ app.use('/api/products', productRouterDB)
 app.use('/api/carts', cartRouterDB)
 app.use('/', viewRouterDB)
 app.use('/api/sessions', sessionRouter)
+app.use('/mockingproducts', mockRouter)
 
 socketServer.on('connection', async(socket) => {
     console.log(`Nuevo cliente conectado`)
