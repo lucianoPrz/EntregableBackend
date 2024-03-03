@@ -1,5 +1,5 @@
 export class CartRepository{
-    contructor(dao){
+    constructor(dao){
         this.dao = dao;
     }
     async getCarts(){

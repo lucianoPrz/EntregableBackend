@@ -1,5 +1,5 @@
 export class ProductRepository{
-    contructor(dao){
+    constructor(dao){
         this.dao = dao;
     };
     async getProducts(options) {
@@ -11,7 +11,7 @@ export class ProductRepository{
         return product
     }
     async addProduct(product) {
-        const products = await this.dao.addProduct(product)
+        let products = await this.dao.addProduct(product)
         return products
     }
     async updateProduct(pid, product) {

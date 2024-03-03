@@ -1,5 +1,9 @@
 import {ProductManagerDB} from "../dao/managers/mongo/ProductManagerDB.js";
 import { productService } from "../repository/index.js";
+import { CustomError } from "../services/customError.service.js";
+import { EError } from "../enums/EError.js";
+import { generateUserErrorInfo } from "../services/productErrorInfo.js";
+import { generateUserErrorParam } from "../services/productErrorParam.js";
 
 class ProductController {
     static getProducts = async (req, res) => {
@@ -46,6 +50,7 @@ class ProductController {
     static getProductById = async (req, res) => {
         //const products = await productManagerFile.getProducts();
         const pid = req.params.pid
+        
         let producto = await productService.getProductById(pid);
     
         //const producto = products.find(prod => prod.id === pid)
@@ -68,10 +73,12 @@ class ProductController {
             const { title, description, code, price, status, stock, category, thumbnail } = req.body
     
         if (!title || !description || !code || !price || !status || !stock || !category) {
-            return res.status(400).send({
-                status: 'error',
-                message: "Valores incompletos"
-            })
+            CustomError.createError({
+                name:"Product create error",
+                cause: generateUserErrorInfo(req.body),
+                message:"Error creando el usuario",
+                errorCode:EError.INVALID_PARAM
+            });
         }
         const product = {
             title,
@@ -93,7 +100,7 @@ class ProductController {
             console.log(error)
             return res.status(400).send({
                 status: 'error',
-                error: 'Error post'
+                error: error.cause
             })
         }
 

@@ -8,6 +8,8 @@ import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import { options } from './config/config.js';
 import { connectDB } from './config/dbConnection.js';
+import { errorHandler } from "./middlewares/errorHandler.js";
+
 
 import { cartRouterDB } from './routes/cartsDB.routes.js';
 import { productRouterDB } from './routes/productsDB.routes.js';
@@ -67,6 +69,7 @@ app.use('/api/carts', cartRouterDB)
 app.use('/', viewRouterDB)
 app.use('/api/sessions', sessionRouter)
 app.use('/mockingproducts', mockRouter)
+app.use(errorHandler)
 
 socketServer.on('connection', async(socket) => {
     console.log(`Nuevo cliente conectado`)

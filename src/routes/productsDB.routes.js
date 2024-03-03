@@ -9,7 +9,7 @@ router.get('/', ProductController.getProducts);
 
 router.get('/:pid', ProductController.getProductById)
 
-router.post('/', checkRole(["admin"]), ProductController.saveProduct)
+router.post('/',  ProductController.saveProduct)
 
 router.put('/:pid', checkRole(["admin"]), ProductController.updateProduct)
 
