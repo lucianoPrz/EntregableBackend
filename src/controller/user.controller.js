@@ -9,7 +9,7 @@ class UserController {
     }
 
     static failRegister = async(req, res) => {
-        console.log("Fallo el registro");
+        req.logger.error("Fallo el registro");
         res.send({ error: 'Fallo el registro' });
     }
 
@@ -28,7 +28,7 @@ class UserController {
     }
 
     static failLogin = (req, res) => {
-        console.log("Fallo el login");
+        req.logger.error("Fallo el login");
         res.send({ error: 'Fallo el login' });
     }
 
@@ -43,6 +43,7 @@ class UserController {
     static logout = async (req, res) => {
         req.session.destroy(err=> {
             if (err) {
+                req.logger.error(err);
                 return res.status(500).send({
                     status: 'error',
                     error: 'No se pudo procesar'

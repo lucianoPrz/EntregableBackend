@@ -9,7 +9,7 @@ import passport from 'passport';
 import { options } from './config/config.js';
 import { connectDB } from './config/dbConnection.js';
 import { errorHandler } from "./middlewares/errorHandler.js";
-
+import { addLogger } from './utils/logger.js';
 
 import { cartRouterDB } from './routes/cartsDB.routes.js';
 import { productRouterDB } from './routes/productsDB.routes.js';
@@ -33,6 +33,7 @@ const MONGO = options.mongo.url
 
 connectDB()
 
+app.use(addLogger)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
