@@ -2,8 +2,8 @@ import { ProductManagerDB } from "../dao/managers/mongo/ProductManagerDB.js";
 import { productService } from "../repository/index.js";
 import { CustomError } from "../services/customError.service.js";
 import { EError } from "../enums/EError.js";
-import { generateUserErrorInfo } from "../services/productErrorInfo.js";
-import { generateUserErrorParam } from "../services/productErrorParam.js";
+import { generateProductErrorInfo } from "../services/productErrorInfo.js";
+import { generateProductErrorParam } from "../services/productErrorParam.js";
 
 class ProductController {
     static getProducts = async (req, res) => {
@@ -77,8 +77,8 @@ class ProductController {
             if (!title || !description || !code || !price || !status || !stock || !category) {
                 CustomError.createError({
                     name: "Product create error",
-                    cause: generateUserErrorInfo(req.body),
-                    message: "Error creando el usuario",
+                    cause: generateProductErrorInfo(req.body),
+                    message: "Error creando el producto",
                     errorCode: EError.INVALID_PARAM
                 });
             }

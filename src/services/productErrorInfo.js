@@ -1,4 +1,4 @@
-export const generateUserErrorInfo = (product) =>{
+export const generateProductErrorInfo = (product) =>{
     return `
     Algunos campos obligatorios para crear al usuario vinieron vacios:
     title: llego ${product.title},
