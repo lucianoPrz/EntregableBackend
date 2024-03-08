@@ -100,7 +100,8 @@ class ProductController {
             console.log(error)
             return res.status(400).send({
                 status: 'error',
-                error: error.cause
+                error: error.cause,
+                code: error.code
             })
         }
 
