@@ -26,6 +26,8 @@ router.get('/logout', UserController.logout)
 
 router.get('/current', UserController.current)
 
+router.post('/resetpassword', UserController.resetPassword)
+
 
 
 
