@@ -16,16 +16,25 @@ export default class MailingService {
             }
         })
     }
-    sendSimpleMail = async (from, to, subject, html, attachments = []) =>{
+    sendMailRecoveryPass = async (userEmail, token) =>{
 
         try {
+            const link = `http://localhost:8080/reset-password?token=${token}`
             const result = await this.client.sendMail({
                 //from: from,
-                from,
-                to,
-                subject,
-                html,
-                attachments
+                from: options.mailing.USER,
+                to: userEmail,
+                subject: "Restablecer contraseña",
+                html: `
+                <div>
+                    <h2>Has solicitado un cambio de contraseña</h2>
+                    <p>Da clic en el siguiente enlace para restablecer la contraseña</p>
+                    </br>
+                    <a href="${link}">
+                        <button> Restablecer contraseña </button>
+                    </a>
+                </div>
+                `
             })
             console.log(result);
             return result;

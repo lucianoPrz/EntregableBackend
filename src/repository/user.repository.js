@@ -23,6 +23,12 @@ export class UserRepository{
         let userDto = new GetUserDTO(user);
         return userDto;
     }
+    async getByEmail(email){
+        console.log("REPOSITORY");
+        let user = await this.dao.getByEmail(email)
+        console.log(user);
+        return user
+    }
     async updateUser(id, user){
         const userUpdated = await this.dao.updateUser(id, user);
         return userUpdated;

@@ -2,6 +2,8 @@ import { fileURLToPath } from "url"
 import { dirname } from "path"
 import bcrypt from "bcrypt"
 import { Faker, es, en } from "@faker-js/faker";
+import jwt from "jsonwebtoken";
+import { options } from "./config/config.js";
 
 export const customFaker = new Faker({ locale: [en] });
 
@@ -31,3 +33,10 @@ export const generateProduct = () =>{
         thumbnail: [image.url()],
     }
 }
+
+export const generateEmailToken = (email,expireTime)=>{
+    //const token = jwt.sign({email},options.gmail.emailToken,{expiresIn:810}); //expireTime
+    const token = jwt.sign({email},options.mailing.PASSWORD,{expiresIn:expireTime}); //
+    return token;
+};
+

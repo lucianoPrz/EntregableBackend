@@ -2,7 +2,8 @@ import { Router} from "express";
 
 import { ProductManagerDB } from "../dao/managers/mongo/ProductManagerDB.js";
 import { CartManagerDB } from "../dao/managers/mongo/CartManagerDB.js";
-import { checkRole } from "../middlewares/auth.js";
+import { checkRole, verifyEmailTokenMW } from "../middlewares/auth.js";
+
 
 import productModel from "../dao/models/product.model.js";
 import messageModel from "../dao/models/message.model.js";
@@ -83,6 +84,15 @@ router.get('/register', publicAccess,(req, res) => {
 
 router.get('/login', publicAccess,(req, res) => {
     res.render('login')
+})
+
+router.get("/forgot-password", (req,res)=>{
+    res.render("forgotPassword")
+})
+
+router.get("/reset-password", verifyEmailTokenMW(), (req,res)=>{
+    const token = req.query.token;
+    res.render("resetPassword",{token})
 })
 
 export { router as viewRouterDB}

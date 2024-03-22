@@ -1,5 +1,9 @@
 import { userService } from "../repository/index.js";
-import MailingService from "../services/mailing.js";
+import { generateEmailToken, validatePassword } from "../utils.js";
+import MailingService from "../utils/mailing.js";
+import userModel from "../dao/models/user.model.js";
+
+const mailer = new MailingService()
 
 class UserController {
     static register = async (req, res) => {
@@ -11,7 +15,7 @@ class UserController {
 
     static failRegister = async (req, res) => {
         req.logger.error("Fallo el registro");
-        res.send({ error: 'Fallo el registro' });
+        res.send(`<div>Error al registrar al usuario, <a href="/signup">Intente de nuevo</a></div>`);
     }
 
     static login = async (req, res) => {
@@ -30,7 +34,7 @@ class UserController {
 
     static failLogin = (req, res) => {
         req.logger.error("Fallo el login");
-        res.send({ error: 'Fallo el login' });
+        res.send(`<div>Error al loguear al usuario, <a href="/login">Intente de nuevo</a></div>`);
     }
 
     static loginGithubCallback = async (req, res) => {
@@ -71,23 +75,62 @@ class UserController {
         })
     }
 
-    static resetPassword = async (req, res) => {
-        const { email } = req.body;
-        console.log(email);
-        const mailer = new MailingService();
+    static forgotPassword = async (req, res) => {
+        try {
+            const { email } = req.body;
+            const user = await userModel.findOne({email});
+            console.log("AASDASDASDSADobject");
+            if (!user) {
+                res.send(`<div>Error no existe el usuario, vuelva a intentar: <a href="/forgot-password">Intente de nuevo</a></div>`)
+            }
+            console.log(user);
 
-        const from = "NodeMailer Test";
-        const to = email
-        const subject = "reset password";
-        const html = `<div><h1>Restablecer contraseña!</h1>
-        <p>Click aqui</p>
-        </div>`;
+            const token = generateEmailToken(email, 10);
+            console.log(token);
+            await mailer.sendMailRecoveryPass(email, token);
+            res.send("Se envio el correo de recuperacion.")
 
-        const result = await mailer.sendSimpleMail(from, to, subject, html)
-        console.log(result);
+        } catch (error) {
 
-        res.send({ status: "success", message: "email enviado" })
+            res.send(`<div>Error,<a href="/forgot-password">Intente de nuevo</a></div>`)
+        }
+
     }
+
+    static resetPassword = async (req,res)=>{
+        try {
+            const token = req.query.token;
+    
+            const {email, newPassword} = req.body;
+    
+            const validToken = verifyEmailToken(token);
+    
+            if(!validToken){
+                return res.send(`El token ya no es valido`);
+            }
+            const user = await userService.getBy({email});
+    
+            if(!user){
+                return res.send("el Usuario no esta registrado")   
+            }
+    
+            if(validatePassword(newPassword,user)){
+                return res.send("no se puede usar la misma contraseña")
+            }
+            const userData = {
+                ...user._doc,
+                password:createHash(newPassword)
+            }
+            const updateUser = await userService.updateUser(user._doc._id, userData);
+    
+            res.render("login", {message:"Contraseña actualizada"})
+    
+        } catch (error) {
+            console.log(error);
+            res.send(`<div>Error, hable con el administrador.</div>`)
+        }
+    
+    };
 }
 
 export { UserController }
