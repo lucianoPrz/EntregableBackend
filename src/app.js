@@ -10,6 +10,8 @@ import { options } from './config/config.js';
 import { connectDB } from './config/dbConnection.js';
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { addLogger } from './utils/logger.js';
+import { swaggerSpecs } from './config/docConfig.js';
+import swaggerUi from 'swagger-ui-express'
 
 import { cartRouterDB } from './routes/cartsDB.routes.js';
 import { productRouterDB } from './routes/productsDB.routes.js';
@@ -72,6 +74,8 @@ app.use('/', viewRouterDB)
 app.use('/api/sessions', sessionRouter)
 app.use('/mockingproducts', mockRouter)
 app.use('/loggertest', loggerTestRouter)
+//Endpoint Docu
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs))
 app.use(errorHandler)
 
 socketServer.on('connection', async(socket) => {
