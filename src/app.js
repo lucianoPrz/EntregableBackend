@@ -73,9 +73,9 @@ app.use('/api/carts', cartRouterDB)
 app.use('/', viewRouterDB)
 app.use('/api/sessions', sessionRouter)
 app.use('/mockingproducts', mockRouter)
-app.use('/loggertest', loggerTestRouter)
+//app.use('/loggertest', loggerTestRouter)
 //Endpoint Docu
-app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs))
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 app.use(errorHandler)
 
 socketServer.on('connection', async(socket) => {

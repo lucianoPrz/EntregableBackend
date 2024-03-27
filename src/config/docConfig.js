@@ -1,17 +1,19 @@
 import __dirname from "../utils.js";
-import swaggerJSDoc from "swagger-jsdoc";
-import path from 'path'
+import swaggerJsDoc from "swagger-jsdoc";
+import path from "path";
 
-const swaggerOptions ={
+
+const swaggerOptions = {
     definition:{
         openapi:"3.0.1",
         info:{
-            title:"Ecommerce TP Coder",
+            title:"Documentación Eccomerce Coder",
             version: "1.0.0",
-            description: "Definicion de endpoints"
+            description:"Definicion de endpoints "
         }
     },
-    apis:[`${path.join(__dirname,"../docs/**/*.yaml")}`]
-}
+    apis:[`${path.join(__dirname,"./docs/**/*.yaml")}`]
+};
 
-export const swaggerSpecs = swaggerJSDoc(swaggerOptions);
+
+export const swaggerSpecs = swaggerJsDoc(swaggerOptions);
