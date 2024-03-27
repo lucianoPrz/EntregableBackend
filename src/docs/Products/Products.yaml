@@ -43,11 +43,51 @@ paths:
 components:
   schemas:
     Product:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: ObjectId
+            description: id del producto
+          title:
+            type: string
+            description: Titulo del producto
+          description:
+            type: string
+            description: Descripcion del producto
+          code:
+            type: string
+            description: Codigo del producto
+          price:
+            type: number
+            description: Precio del producto
+          status:
+            type: boolean
+            description: 
+          stock:
+            type: number
+            description: Unidades disponibles del producto
+          category:
+            type: string
+            description: Categoria del producto
+          thumbnail:
+            type: string
+            description: url de imaneg del producto
+      example:
+        id: ObjectId('65850ef678ee3f212c45bb1e')
+        title: 'smart tv'
+        description: "smart tv 32 pls "
+        code: 'abc123'
+        price: 100
+        status: true
+        stock: 20
+        category: "electro"
+        thumbnail: ""
+  requestBodies:
+    UpdateProduct:
       type: object
       properties:
-        _id:
-          type: ObjectId
-          description: id del producto
         title:
           type: string
           description: Titulo del producto
@@ -75,4 +115,12 @@ components:
           items:
             type: string
             description: url de imagen del producto
-
+      example:
+        title: 'smart tv'
+        description: "smart tv 42 pls "
+        code: 'abc124'
+        price: 100
+        status: true
+        stock: 20
+        category: "electro"
+        thumbnail: ""
