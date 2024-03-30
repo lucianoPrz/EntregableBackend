@@ -161,7 +161,7 @@ components:
             type: string
             description: url de imaneg del producto
       example:
-        id: ObjectId('65850ef678ee3f212c45bb1e')
+        _id: ObjectId('65850ef678ee3f212c45bb1e')
         title: 'smart tv'
         description: "smart tv 32 pls "
         code: 'abc123'
