@@ -15,11 +15,24 @@ describe("Testing de app Ecommece", () => {
                 products: []
             }
             const result = await requester.post('/api/carts').send(mockCart);
-            console.log(result);
+            const {statusCode, _body} = result
 
-            expect(true)
+            expect(statusCode).to.be.equal(200)
+            expect(_body.status).to.be.equal("success")
+        })
+
+        it("Con el metodo get, la respuesta deber ser un objeto con un campo status y un payload, que debe ser un array", async function(){
+            const response = await requester.get('/api/carts')
+
+            // console.log(response)
+
+            expect(response.statusCode).to.be.equal(200)
+            expect(response.body).to.haveOwnProperty("status")
+            expect(Array.isArray(response.body.payload)).to.deep.equal(true)
         })
 
     })
+
+    
 
 })

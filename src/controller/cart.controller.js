@@ -6,7 +6,7 @@ class CartController {
             const carts = await cartService.getCarts()
             res.send({
                 status: 'success',
-                message: carts
+                payload: carts
             })
         } catch (error) {
             req.logger.error(error.message);
