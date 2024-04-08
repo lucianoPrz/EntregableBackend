@@ -65,7 +65,7 @@ class ProductController {
         }
         res.send({
             status: 'success',
-            producto: producto
+            payload: producto
         })
     }
 
@@ -96,7 +96,7 @@ class ProductController {
 
             res.send({
                 status: 'success',
-                message: result
+                payload: result
             })
         } catch (error) {
             req.logger.error(error.message)
@@ -143,7 +143,7 @@ class ProductController {
             res.send({
                 status: 'success',
                 msg: `Producto actualizado`,
-                productos: result
+                payload: result
             })
         } catch (error) {
             req.logger.error(error.message)
@@ -174,7 +174,7 @@ class ProductController {
 
             res.send({
                 status: 'success',
-                message: result
+                payload: result
             })
         } catch (error) {
             req.logger.error(error.message)

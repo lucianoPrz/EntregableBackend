@@ -83,6 +83,75 @@ describe("Testing de app Ecommece", () => {
             expect(Array.isArray(response.body.payload.docs)).to.deep.equal(true)
         })
 
+        it("PUT api/products debe retornar 200", async function () {
+            const mockProduct = {
+                title: "SmartPhone Xiaomi 11",
+                description: "Esto es un producto prueba 555",
+                price: 555,
+                code: generarCodigo(),
+                stock: 25,
+                status: true,
+                category: "C",
+                thumbnail: "#"
+            }
+
+            const mockUpdateProduct = {
+                title: "SmartPhone Samsung s23",
+                description: "Esto es un producto prueba 555",
+                price: 555,
+                code: generarCodigo(),
+                stock: 25,
+                status: true,
+                category: "C",
+                thumbnail: "#"
+            }
+
+            const {body, statusCode, ok} = await requester.post("/api/products").send(mockProduct)
+
+            const result = await requester.put(`/api/products/${body.payload._id}`).send(mockUpdateProduct)
+
+            const response = await requester.get(`/api/products/${body.payload._id}`)
+
+            console.log(response.body.payload.title);
+
+            expect(response.body.payload.title).to.not.be.equal(mockProduct.title)
+        })
+
+        it("DELETE debe retornar 200", async function () {
+            const mockProduct = {
+                title: "SmartPhone Xiaomi 11",
+                description: "Esto es un producto prueba 555",
+                price: 555,
+                code: generarCodigo(),
+                stock: 25,
+                status: true,
+                category: "C",
+                thumbnail: "#"
+            }
+
+            const {body, statusCode, ok} = await requester.post("/api/products").send(mockProduct)
+
+            const responseDelete = await requester.delete(`/api/products/${body.payload._id}`)
+            
+            const response = await requester.get(`/api/products/${body.payload._id}`)
+
+
+            expect(response.body.payload).to.be.equal(undefined)
+            
+        })
+
     })
+
+    // describe("Test del modulo Sessions", () => {
+
+    //     it("", async function () {
+           
+    //     })
+
+    //     it("", async function () {
+           
+    //     })
+
+    // })
 
 })

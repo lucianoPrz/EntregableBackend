@@ -11,9 +11,9 @@ router.get('/:pid', ProductController.getProductById)
 
 router.post('/',  ProductController.saveProduct)
 
-router.put('/:pid', checkRole(["admin"]), ProductController.updateProduct)
+router.put('/:pid', /*checkRole(["admin"]),*/ ProductController.updateProduct)
 
-router.delete('/:pid', checkRole(["admin"]), ProductController.deleteProduct)
+router.delete('/:pid', /*checkRole(["admin"]),*/ ProductController.deleteProduct)
 
 router.get('/mockingproducts', (req, res) => {
     const cant = 100;
