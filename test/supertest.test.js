@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { app } from "../src/app.js";
 import cartModel from "../src/dao/models/cart.model.js";
 import productModel from "../src/dao/models/product.model.js";
+import userModel from "../src/dao/models/user.model.js";
 
 
 const requester = supertest(app);
@@ -32,9 +33,9 @@ describe("Testing de app Ecommece", () => {
 
     describe("Test del modulo Carts", () => {
 
-        beforeEach(async () => {
-            await cartModel.deleteMany()
-        })
+        // beforeEach(async () => {
+        //     await cartModel.deleteMany({})
+        // })
 
         it("El endpoint /api/carts crea un carrito correctamente", async function () {
             const mockCart = {
@@ -61,9 +62,9 @@ describe("Testing de app Ecommece", () => {
 
     describe("Test del modulo Products", () => {
 
-        beforeEach(async () => {
-            await productModel.deleteMany()
-        })
+        // beforeEach(async () => {
+        //     await productModel.deleteMany({})
+        // })
 
         it("El endpoint /api/products crea un producto correctamente", async function () {
             const mockProduct = {
@@ -122,7 +123,6 @@ describe("Testing de app Ecommece", () => {
 
             const response = await requester.get(`/api/products/${body.payload._id}`)
 
-            console.log(response.body.payload.title);
 
             expect(response.body.payload.title).to.not.be.equal(mockProduct.title)
         })
@@ -152,16 +152,36 @@ describe("Testing de app Ecommece", () => {
 
     })
 
-    // describe("Test del modulo Sessions", () => {
+    describe("Test flujo de usuarios", () => {
 
-    //     it("", async function () {
-           
-    //     })
+        before(async () => {
+            await userModel.deleteMany({email: "mockMail@gmail.com"})
+        })
 
-    //     it("", async function () {
-           
-    //     })
+        it("El registro debe funcionar correctamente", async function () {
+            const userMock = {
+                first_name: "user",
+                last_name: "test",
+                email: "mockMail@gmail.com",
+                password: "123"
+            }
 
-    // })
+            const response = await requester.post('/api/sessions/register').send(userMock);
+
+            expect(response.statusCode).to.be.equal(200)
+
+        })
+
+        it("Debe loguearse correctamente", async function () {
+            const userMock = {
+                email: "mockMail@gmail.com",
+                password: "123"
+            }
+            const response = await requester.post('/api/sessions/login').send(userMock)
+            
+            expect(response.statusCode).to.be.equal(200)
+        })
+
+    })
 
 })
