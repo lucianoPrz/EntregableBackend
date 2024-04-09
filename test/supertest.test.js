@@ -2,6 +2,8 @@ import supertest from "supertest";
 import { expect } from 'chai';
 
 import { app } from "../src/app.js";
+import cartModel from "../src/dao/models/cart.model.js";
+import productModel from "../src/dao/models/product.model.js";
 
 
 const requester = supertest(app);
@@ -30,6 +32,10 @@ describe("Testing de app Ecommece", () => {
 
     describe("Test del modulo Carts", () => {
 
+        beforeEach(async () => {
+            await cartModel.deleteMany()
+        })
+
         it("El endpoint /api/carts crea un carrito correctamente", async function () {
             const mockCart = {
                 products: []
@@ -54,6 +60,10 @@ describe("Testing de app Ecommece", () => {
     })
 
     describe("Test del modulo Products", () => {
+
+        beforeEach(async () => {
+            await productModel.deleteMany()
+        })
 
         it("El endpoint /api/products crea un producto correctamente", async function () {
             const mockProduct = {
