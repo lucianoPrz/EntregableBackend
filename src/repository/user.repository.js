@@ -20,8 +20,14 @@ export class UserRepository{
     }
     async getBy(params){
         let user = await this.dao.getBy(params)
+        
         let userDto = new GetUserDTO(user);
         return userDto;
+    }
+    async getById(params){
+        let user = await this.dao.getBy(params)
+
+        return user
     }
     async getByEmail(email){
         console.log("REPOSITORY");
@@ -32,5 +38,10 @@ export class UserRepository{
     async updateUser(id, user){
         const userUpdated = await this.dao.updateUser(id, user);
         return userUpdated;
+    }
+    async changeRole(id, role){
+        const userUpdated = await this.dao.changeRole(id, role);
+        let userDto = new GetUserDTO(userUpdated);
+        return userDto;
     }
 }

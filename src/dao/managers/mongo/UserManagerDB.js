@@ -26,4 +26,8 @@ export default class User{
         let result = await userModel.updateOne({_id:id}, {$set: user})
         return result;
     };
+    changeRole = async (id, role) => {
+        let result = await userModel.findByIdAndUpdate(id, {role: role}, { new: true })
+        return result
+    }
 }

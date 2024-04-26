@@ -131,6 +131,35 @@ class UserController {
         }
     
     };
+    static changeRole = async (req, res) => {
+        try {
+            const uid = req.params.uid
+            const user = await userService.getBy({_id:uid})
+            if (!user) {
+                return res.status(400).send({
+                    status: 'error',
+                    error: 'No existe el usuario'
+                })
+            }
+            const { role } = req.body
+            if(!role || role !== "user" && role !== "premium") {
+                return res.status(400).send({
+                    status: 'error',
+                    error: 'Datos invalidos'
+                })
+            }
+            const result = await userService.changeRole(uid, role)
+
+            res.send({
+                status: 'success',
+                msg: `Rol actualizado`,
+                payload: result
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
 }
 
 export { UserController }

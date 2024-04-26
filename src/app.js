@@ -16,6 +16,7 @@ import swaggerUi from 'swagger-ui-express'
 import { cartRouterDB } from './routes/cartsDB.routes.js';
 import { productRouterDB } from './routes/productsDB.routes.js';
 import { viewRouterDB } from './routes/viewsDB.routes.js';
+import { userRouter } from './routes/user.routes.js';
 import { mockRouter } from './routes/mocks.routes.js';
 import { loggerTestRouter } from './routes/loggertest.routes.js';
 import sessionRouter from './routes/sessions.routes.js'
@@ -72,6 +73,7 @@ app.use('/api/products', productRouterDB)
 app.use('/api/carts', cartRouterDB)
 app.use('/', viewRouterDB)
 app.use('/api/sessions', sessionRouter)
+app.use('/api/users', userRouter)
 app.use('/mockingproducts', mockRouter)
 //app.use('/loggertest', loggerTestRouter)
 //Endpoint Docu

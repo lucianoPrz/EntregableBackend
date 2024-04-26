@@ -68,7 +68,7 @@ describe("Testing de app Ecommece", () => {
 
         it("El endpoint /api/products crea un producto correctamente", async function () {
             const mockProduct = {
-                title: "producto prueba 555",
+                title: "producto test",
                 description: "Esto es un producto prueba 555",
                 price: 555,
                 code: generarCodigo(),
