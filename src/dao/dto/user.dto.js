@@ -10,7 +10,7 @@ export class CreateUserDto{
 
 export class GetUserDTO{
     constructor(userDB){
-        this.fullName = userDB.full_name;
+        this.fullName = `${userDB.first_name} ${userDB.last_name}`;
         this.email = userDB.email,
         this.role = userDB.role
     }
