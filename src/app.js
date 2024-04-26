@@ -78,7 +78,7 @@ app.use('/mockingproducts', mockRouter)
 //app.use('/loggertest', loggerTestRouter)
 //Endpoint Docu
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
-app.use(errorHandler)
+app.use(errorHandler) 
 
 socketServer.on('connection', async(socket) => {
     console.log(`Nuevo cliente conectado`)

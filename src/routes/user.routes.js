@@ -5,4 +5,6 @@ const router = Router();
 
 router.put('/premium/:uid', UserController.changeRole)
 
+router.get('/', UserController.getUsers)
+
 export { router as userRouter}

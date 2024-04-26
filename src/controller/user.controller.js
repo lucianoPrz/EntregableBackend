@@ -160,6 +160,18 @@ class UserController {
             console.log(error);
         }
     };
+    static getUsers = async (req, res) => {
+        try {
+            const result = await userService.getUsers()
+            
+            res.send({
+                status: 'success',
+                payload: result
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 
 export { UserController }

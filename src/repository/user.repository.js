@@ -6,7 +6,8 @@ export class UserRepository{
     }
     async getUsers(){
         const users = await this.dao.getAll();
-        return users;
+        const usersDTO = users.map(user => new GetUserDTO(user));
+        return usersDTO;
     }
     async getUserDto(user){
         const userDtoFront = new GetUserDTO(user);
