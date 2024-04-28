@@ -43,4 +43,32 @@ export default class MailingService {
         }
 
     }
+
+    sendMailUserDelete = async (userEmail) =>{
+
+        try {
+            const link = `http://localhost:8080/register`
+            const result = await this.client.sendMail({
+                //from: from,
+                from: options.mailing.USER,
+                to: userEmail,
+                subject: "Eliminacion de usuario",
+                html: `
+                <div>
+                    <h2>Hemos eliminado su usuario de nuestras bases por inactividad</h2>
+                    <p>Da clic en el siguiente enlace para volver a registrarse</p>
+                    </br>
+                    <a href="${link}">
+                        <button> Registrarse nuevamente </button>
+                    </a>
+                </div>
+                `
+            })
+            console.log(result);
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
 }

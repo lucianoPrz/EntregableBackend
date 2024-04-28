@@ -30,6 +30,7 @@ const schema = new mongoose.Schema({
         enum: ["admin", "user", "premium"],
         default: "user"
     },
+    lastConnection: Object
 })
 
 const userModel = mongoose.model(collection, schema);

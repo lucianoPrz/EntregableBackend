@@ -7,4 +7,6 @@ router.put('/premium/:uid', UserController.changeRole)
 
 router.get('/', UserController.getUsers)
 
+router.delete('/', UserController.deleteUsers)
+
 export { router as userRouter}

@@ -2,6 +2,7 @@ import { userService } from "../repository/index.js";
 import { generateEmailToken, validatePassword } from "../utils.js";
 import MailingService from "../utils/mailing.js";
 import userModel from "../dao/models/user.model.js";
+import moment from "moment";
 
 const mailer = new MailingService()
 
@@ -171,6 +172,36 @@ class UserController {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    static deleteUsers = async (req, res) => {
+       try {
+        let users = await userService.getUsersDB()
+        const hoy = moment()
+        const usersToDelete = []
+
+        for (let user of users) {
+            if (hoy.diff(user.lastConnection, "minutes") > 30) {
+                console.log(hoy.diff(user.lastConnection, "minutes"));
+                console.log(user);
+                usersToDelete.push(user);
+            }
+        }
+
+        for (let user of usersToDelete) {
+            //mailer.sendMailUserDelete(user.email)
+            await userService.deleteUser(user._id);
+        }
+
+        res.send({
+            status: 'success',
+            msg: `Usuarios inactivos eliminados correctamente`,
+        })
+
+       } catch (error) {
+            console.log(error);
+       }
+
     }
 }
 

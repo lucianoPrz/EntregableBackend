@@ -30,4 +30,8 @@ export default class User{
         let result = await userModel.findByIdAndUpdate(id, {role: role}, { new: true })
         return result
     }
+    deleteUser = async (id) => {
+        let result = await userModel.deleteOne({_id: id})
+        return result
+    }
 }

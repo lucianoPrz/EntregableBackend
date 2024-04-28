@@ -1,6 +1,7 @@
 import passport from "passport";
 import local from "passport-local";
 import GitHubStrategy from "passport-github2"
+import moment from "moment";
 
 import userModel from "../dao/models/user.model.js";
 import { CartManagerDB } from "../dao/managers/mongo/CartManagerDB.js";
@@ -31,8 +32,10 @@ const inicializePassport = () => {
                 email,
                 age,
                 cart: cart._id,
-                password: createHash(password)
+                password: createHash(password),
+                lastConnection: moment()
             }
+            console.log(newUser.lastConnection);
             const result = await userModel.create(newUser);
             return done (null, result);
 
@@ -54,6 +57,9 @@ const inicializePassport = () => {
                 if(!validatePassword(password, user)) {
                     return done(null, false);
                 }
+                user.lastConnection = moment();
+                await user.save();
+                console.log(user.lastConnection);
                 return done(null, user);
             } catch (error) {
                 return done(error);
@@ -88,6 +94,9 @@ const inicializePassport = () => {
             let user = await userModel.findOne({email});
             if(user){
                 console.log('Usuario ya registrado');
+                user.lastConnection = moment()
+                await user.save();
+                console.log(user.lastConnection);
                 return done(null,user)
             }
 
@@ -99,10 +108,12 @@ const inicializePassport = () => {
                 email,
                 age: 18,
                 cart: cart._id,
-                password: ""
+                password: "",
+                lastConnection: moment()
             }
             const result = await userModel.create(newUser);
             //console.log(newUser)
+            console.log(newUser.lastConnection);
             return done (null, result);
 
         } catch (error) {

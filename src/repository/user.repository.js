@@ -9,6 +9,10 @@ export class UserRepository{
         const usersDTO = users.map(user => new GetUserDTO(user));
         return usersDTO;
     }
+    async getUsersDB(){
+        const users = await this.dao.getAll();
+        return users;
+    }
     async getUserDto(user){
         const userDtoFront = new GetUserDTO(user);
         return userDtoFront;
@@ -44,5 +48,10 @@ export class UserRepository{
         const userUpdated = await this.dao.changeRole(id, role);
         let userDto = new GetUserDTO(userUpdated);
         return userDto;
+    }
+    async deleteUser(id){
+        let result = await this.dao.deleteUser(id)
+        console.log(result);
+        return result;
     }
 }
