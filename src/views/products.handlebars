@@ -21,17 +21,26 @@
             </div>
         {{/each}}
     </div>
-    <div class="container-fluid d-flex justify-content-around">
-        
-        {{#if products.hasPrevPage}}
-            <a class="btn btn-primary" href={{products.prevLink}}>Anterior</a>
-        {{/if}}
-        
-        <span class="btn btn-light">Página {{products.page}} de {{products.totalPages}}</span>
-        
-        {{#if products.hasNextPage}}
-            <a class="btn btn-primary" href={{products.nextLink}}>Siguiente</a>
-        {{/if}}
-        
-    </div>
+  <div class="container-fluid d-flex justify-content-around">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                {{#if products.hasPrevPage}}
+                    <a class="page-link btn btn-primary" href="{{products.prevLink}}">Anterior</a>
+                {{else}}
+                    <span class="page-link btn btn-secondary disabled">Anterior</span>
+                {{/if}}
+            </li>
+            <li class="page-item"><span class="page-link btn btn-light">Página {{products.page}} de {{products.totalPages}}</span></li>
+            <li class="page-item">
+                {{#if products.hasNextPage}}
+                    <a class="page-link btn btn-primary" href="{{products.nextLink}}">Siguiente</a>
+                {{else}}
+                    <span class="page-link btn btn-secondary disabled">Siguiente</span>
+                {{/if}}
+            </li>
+        </ul>
+    </nav>
+</div>
+
 </div>
