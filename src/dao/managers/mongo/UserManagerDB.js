@@ -27,8 +27,16 @@ export default class User{
         let result = await userModel.updateOne({_id:id}, {$set: user})
         return result;
     };
-    changeRole = async (id, role) => {
-        let result = await userModel.findByIdAndUpdate(id, {role: role}, { new: true })
+    changeRole = async (id) => {
+        let user = await userModel.findById(id)
+        console.log(user.role);
+        if (user.role == "premium") {
+            user.role = "user";
+        } else if(user.role == "user") {
+            user.role = "premium";
+            
+        }
+        let result = user.save()
         return result
     }
     deleteUser = async (id) => {

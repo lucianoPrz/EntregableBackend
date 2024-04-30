@@ -143,14 +143,8 @@ class UserController {
                     error: 'No existe el usuario'
                 })
             }
-            const { role } = req.body
-            if(!role || role !== "user" && role !== "premium") {
-                return res.status(400).send({
-                    status: 'error',
-                    error: 'Datos invalidos'
-                })
-            }
-            const result = await userService.changeRole(uid, role)
+            
+            const result = await userService.changeRole(uid)
 
             res.send({
                 status: 'success',

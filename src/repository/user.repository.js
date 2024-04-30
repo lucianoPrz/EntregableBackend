@@ -43,8 +43,8 @@ export class UserRepository{
         const userUpdated = await this.dao.updateUser(id, user);
         return userUpdated;
     }
-    async changeRole(id, role){
-        const userUpdated = await this.dao.changeRole(id, role);
+    async changeRole(id){
+        const userUpdated = await this.dao.changeRole(id);
         let userDto = new GetUserDTO(userUpdated);
         return userDto;
     }
