@@ -25,7 +25,8 @@ class UserController {
         }
         req.session.user = {
             full_name: `${req.user.first_name} ${req.user.last_name}`,
-            email: req.user.email
+            email: req.user.email,
+            role: req.user.role
         }
         res.send({
             status: "success",
@@ -171,6 +172,20 @@ class UserController {
             })
         } catch (error) {
             console.log(error)
+        }
+    }
+    static getUser = async (req, res) => {
+        try {
+            const uid = req.params.uid
+            console.log(uid);
+            let user = await userService.getBy({_id: uid});
+            res.send({
+                status: 'success',
+                payload: user
+            })
+
+        } catch (error) {
+            console.log(error);
         }
     }
 

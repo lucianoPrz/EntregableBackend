@@ -14,6 +14,7 @@ export default class User{
     };
     getBy = async (params) => {
         let result = await userModel.findOne(params).lean();
+        console.log(result);
         return result
     };
     getByEmail = async (email) => {

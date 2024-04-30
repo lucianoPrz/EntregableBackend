@@ -2,15 +2,18 @@ import { Router} from "express";
 
 import { ProductManagerDB } from "../dao/managers/mongo/ProductManagerDB.js";
 import { CartManagerDB } from "../dao/managers/mongo/CartManagerDB.js";
+import User from "../dao/managers/mongo/UserManagerDB.js";
 import { checkRole, verifyEmailTokenMW } from "../middlewares/auth.js";
 
 
 import productModel from "../dao/models/product.model.js";
 import messageModel from "../dao/models/message.model.js";
+import { userService } from "../repository/index.js";
 
 const router = Router();
 const productManagerDB = new ProductManagerDB();
 const cartManagerDB = new CartManagerDB();
+const userManagerDB = new User()
 
 const publicAccess = (req, res, next) => {
     if(req.session.user){
@@ -94,5 +97,20 @@ router.get("/reset-password", verifyEmailTokenMW(), (req,res)=>{
     const token = req.query.token;
     res.render("resetPassword",{token})
 })
+
+router.get("/userFind", checkRole(["admin"]), (req,res)=>{
+    res.render("userFind")
+})
+
+router.get('/users/:uid', checkRole(["admin"]), async (req, res) => {
+    const uid = req.params.uid; // Utiliza req.params.uid para obtener el valor del parámetro de la URL
+    console.log("VIEWDDD");
+    console.log(uid);
+    let usuario = await userService.getBy({_id: uid});
+    console.log(usuario);
+
+    res.render('userView', {usuario});
+});
+
 
 export { router as viewRouterDB}

@@ -25,7 +25,6 @@ export class UserRepository{
     }
     async getBy(params){
         let user = await this.dao.getBy(params)
-        
         let userDto = new GetUserDTO(user);
         return userDto;
     }
