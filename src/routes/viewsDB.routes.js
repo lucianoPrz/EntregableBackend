@@ -60,7 +60,7 @@ router.get('/', privateAccess,async (req, res) => {
             products.nextLink = `/?page=${products.nextPage}`;
         }
 
-        res.render('products', {products, user: req.session.user})
+        res.render('products', {products, user: req.session.user, isAdmin: req.session.user.role === 'admin'})
     
         
     } catch (error) {

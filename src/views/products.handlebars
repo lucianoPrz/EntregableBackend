@@ -1,10 +1,11 @@
 <div>
 
     <h1>Bienvenido {{user.full_name}} </h1>
-    {{#if user.isAdmin}}
+    {{#if isAdmin}}
         <h2>Perfil Admin</h2>
+        <a href="/userfind" class="btn btn-primary">Administrar usuarios</a>
     {{/if}}    
-    <a href="/api/sessions/logout"><button>Salir</button></a>
+    <a href="/api/sessions/logout" ><button class="btn btn-info">Salir</button></a>
 
     <h1>Productos</h1>
     <div class="container-fluid d-flex justify-content-around">
