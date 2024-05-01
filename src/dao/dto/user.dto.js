@@ -12,6 +12,7 @@ export class GetUserDTO{
     constructor(userDB){
         this.fullName = `${userDB.first_name} ${userDB.last_name}`;
         this.email = userDB.email,
-        this.role = userDB.role
+        this.role = userDB.role,
+        this._id = userDB._id
     }
 }
