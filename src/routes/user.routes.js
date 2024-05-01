@@ -11,4 +11,6 @@ router.get('/', UserController.getUsers)
 
 router.delete('/', UserController.deleteUsers)
 
+router.delete('/:uid', UserController.deleteUser)
+
 export { router as userRouter}

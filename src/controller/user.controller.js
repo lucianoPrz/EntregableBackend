@@ -212,6 +212,30 @@ class UserController {
        }
 
     }
+    static deleteUser = async (req, res) => {
+        try {
+            let uid = req.params.uid
+         let users = await userService.getById({_id: uid})
+         if (!users) {
+            return res.status(400).send({
+                status: 'error',
+                error: `No existe el usuario con id ${uid}`
+            })
+         }
+         const result = await userService.deleteUser(uid)
+ 
+        
+ 
+         res.send({
+             status: 'success',
+             msg: `Usuarios eliminados correctamente`,
+         })
+ 
+        } catch (error) {
+             console.log(error);
+        }
+ 
+     }
 }
 
 export { UserController }
