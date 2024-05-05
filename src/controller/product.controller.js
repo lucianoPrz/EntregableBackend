@@ -53,6 +53,7 @@ class ProductController {
         const pid = req.params.pid
 
         let producto = await productService.getProductById(pid);
+        console.log('Product: ', producto);
 
         //const producto = products.find(prod => prod.id === pid)
 

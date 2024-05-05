@@ -201,7 +201,7 @@ class UserController {
         }
 
         for (let user of usersToDelete) {
-            //mailer.sendMailUserDelete(user.email)
+            mailer.sendMailUserDelete(user.email)
             await userService.deleteUser(user._id);
         }
 

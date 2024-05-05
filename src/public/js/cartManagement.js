@@ -1,10 +1,11 @@
+// AGREGAR AL CARRITO
 // Seleccionar todos los botones con la clase "add-to-cart"
 let addToCartButtons = document.querySelectorAll('.add-to-cart');
 
 
 // Agregar un controlador de eventos de clic a cada botón
-addToCartButtons.forEach(function(button) {
-    button.addEventListener('click', function(event) {
+addToCartButtons.forEach(function (button) {
+    button.addEventListener('click', function (event) {
         event.preventDefault();
         let cid = document.getElementById('cart').textContent;
 
@@ -12,7 +13,7 @@ addToCartButtons.forEach(function(button) {
 
         console.log('Carrito:', cid);
         console.log('ID del producto:', pid);
-    
+
         fetch(`/api/carts/${cid}/product/${pid}`, {
             method: "POST",
             headers: {
@@ -20,13 +21,14 @@ addToCartButtons.forEach(function(button) {
             }
         }).then(result => {
             if (result.ok) {
-               //;
+                //;
             } else {
                 console.log(result);
             }
         }).catch(error => {
             console.error('Error:', error);
         });
-        
+
     });
 });
+

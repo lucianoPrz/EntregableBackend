@@ -19,6 +19,7 @@
         </nav>
     </div>
     <h1>Productos en el carrito</h1>
+      <p id="cart">{{carrito}}</p>
     <div class="container-fluid d-flex justify-content-around">
         <div class="row row-cols-5">
             {{#each products}}
@@ -35,3 +36,13 @@
             {{/each}}
         </div>
     </div>
+
+    <div class="container-fluid d-flex justify-content-around mt-4">
+        <nav aria-label="Page navigation example">
+            <a href="/" class="btn btn-info">Seguir comprando</a>
+            <a id="purchase" class="btn btn-success" data-cart-id="{{carrito}}" data-email="{{user.email}}">Finalizar compra</a>    
+        </nav>
+    </div>
+</div>
+
+<script src="/js/purchase.js"></script>

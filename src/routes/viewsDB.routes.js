@@ -75,11 +75,15 @@ router.get('/cart/:cid', async (req, res) => {
     const cart = await cartManagerDB.getCartsById(cid);
 
     const products = cart[0].products
-    console.log(products)
+
 
 
     res.render('carts', {products, user: req.session.user, carrito: req.session.user.cart})
 
+});
+
+router.get('/closedSale', async (req, res) => {
+    res.render('closedSale', {user: req.session.user})
 });
 
 router.get('/register', publicAccess,(req, res) => {

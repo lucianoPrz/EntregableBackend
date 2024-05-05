@@ -1,4 +1,5 @@
 import { cartService, productService, ticketService } from "../repository/index.js";
+import { v4 as uuidv4 } from "uuid";
 
 class CartController {
     static getCarts = async (req, res) => {
@@ -162,7 +163,8 @@ class CartController {
         try {
             const cartId = req.params.cid;
             const email = req.body.email;
-            const cart = await cartService.getCartsById(cartId);
+            const cartDB = await cartService.getCartsById(cartId);
+            const cart = cartDB[0]
             if (cart) {
                 if (!cart.products.length) {
                     return res.send("es necesario que agrege productos antes de realizar la compra")
@@ -171,7 +173,9 @@ class CartController {
                 const rejectedProducts = [];
                 for (let i = 0; i < cart.products.length; i++) {
                     const cartProduct = cart.products[i];
-                    const productDB = await productService.getProductById(cartProduct.id);
+                    console.log(cartProduct.product._id);
+                    const productDB = await productService.getProductById(cartProduct.product._id);
+                    console.log(productDB);
                     //comparar la cantidad de ese producto en el carrito con el stock del producto
                     if (cartProduct.quantity <= productDB.stock) {
                         ticketProducts.push(cartProduct);
@@ -179,20 +183,22 @@ class CartController {
                         rejectedProducts.push(cartProduct);
                     }
                 }
-                console.log("ticketProducts", ticketProducts)
-                console.log("rejectedProducts", rejectedProducts)
+                // console.log("ticketProducts", ticketProducts)
+                // console.log("rejectedProducts", rejectedProducts)
                 const newTicket = {
                     code: uuidv4(),
                     purchase_datetime: new Date().toLocaleString(),
                     amount: 500,
-                    purchaser: req.user.email
+                    purchaser: email
                 }
                 const ticketCreated = await ticketService.createTicket(newTicket);
+                cartService.emptyCart(cartId)
                 res.send(ticketCreated)
             } else {
                 res.send("el carrito no existe")
             }
         } catch (error) {
+            console.log(error.message);
             req.logger.error(error.message)
             res.send(error.message)
         }

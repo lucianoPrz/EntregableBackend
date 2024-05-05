@@ -8,6 +8,8 @@ export class ProductRepository{
     }
     async getProductById(id) {
         let product = await this.dao.getProductById(id);
+        console.log(product);
+
         return product
     }
     async addProduct(product) {

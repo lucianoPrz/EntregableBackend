@@ -24,7 +24,7 @@ class ProductManagerDB {
     getProductById = async (pid) => {
 
         const product = await productModel.findOne({_id: pid})
-
+        
         return product
     }
 
