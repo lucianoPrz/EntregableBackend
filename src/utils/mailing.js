@@ -71,4 +71,28 @@ export default class MailingService {
         }
 
     }
+
+    sendMailPurchase = async (userEmail, ticketId) =>{
+
+        try {
+            const result = await this.client.sendMail({
+                //from: from,
+                from: options.mailing.USER,
+                to: userEmail,
+                subject: "Confirmacion de compra",
+                html: `
+                <div>
+                    <h1>Gracias por su compra</h1>
+                    <h3>El codigo de su ticket es ${ticketId}</h3>
+                    </br>
+                </div>
+                `
+            })
+            console.log(result);
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
 }

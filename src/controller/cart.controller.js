@@ -1,5 +1,8 @@
 import { cartService, productService, ticketService } from "../repository/index.js";
 import { v4 as uuidv4 } from "uuid";
+import MailingService from "../utils/mailing.js";
+
+const mailer = new MailingService()
 
 class CartController {
     static getCarts = async (req, res) => {
@@ -193,6 +196,7 @@ class CartController {
                 }
                 const ticketCreated = await ticketService.createTicket(newTicket);
                 cartService.emptyCart(cartId)
+                mailer.sendMailPurchase(email, newTicket.code)
                 res.send(ticketCreated)
             } else {
                 res.send("el carrito no existe")
