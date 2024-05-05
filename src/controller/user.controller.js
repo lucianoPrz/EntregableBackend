@@ -26,7 +26,8 @@ class UserController {
         req.session.user = {
             full_name: `${req.user.first_name} ${req.user.last_name}`,
             email: req.user.email,
-            role: req.user.role
+            role: req.user.role,
+            cart: req.user.cart
         }
         res.send({
             status: "success",
@@ -42,7 +43,9 @@ class UserController {
     static loginGithubCallback = async (req, res) => {
         req.session.user = {
             full_name: `${req.user.first_name} ${req.user.last_name}`,
-            email: req.user.email
+            email: req.user.email,
+            role: req.user.role,
+            cart: req.user.cart
         }
         res.redirect("/")
     }

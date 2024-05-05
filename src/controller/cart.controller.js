@@ -61,7 +61,7 @@ class CartController {
         try {
             const pid = req.params.pid
         const cid = req.params.cid
-        const quantity = req.params.quantity
+        const quantity = 1
 
         const result = await cartService.addProductInCart(pid, cid, quantity)
 

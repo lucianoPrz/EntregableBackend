@@ -59,8 +59,9 @@ router.get('/', privateAccess,async (req, res) => {
         if(products.hasNextPage){
             products.nextLink = `/?page=${products.nextPage}`;
         }
+        const carrito = req.session.user.cart
 
-        res.render('products', {products, user: req.session.user, isAdmin: req.session.user.role === 'admin'})
+        res.render('products', {products, user: req.session.user, isAdmin: req.session.user.role === 'admin', carrito})
     
         
     } catch (error) {
@@ -77,7 +78,7 @@ router.get('/cart/:cid', async (req, res) => {
     console.log(products)
 
 
-    res.render('carts', {products})
+    res.render('carts', {products, user: req.session.user, carrito: req.session.user.cart})
 
 });
 

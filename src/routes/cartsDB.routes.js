@@ -12,7 +12,7 @@ router.get('/:cid', CartController.getCartById)
 
 router.post('/', CartController.saveCart)
 
-router.post('/:cid/product/:pid', checkRole(["user"]),CartController.saveProductInCart)
+router.post('/:cid/product/:pid', checkRole(["user", "premium", "admin"]),CartController.saveProductInCart)
 
 router.delete('/:cid/product/:pid', checkRole(["user"]),CartController.deleteProductInCart);
 
