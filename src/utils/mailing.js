@@ -95,4 +95,28 @@ export default class MailingService {
         }
 
     }
+
+    sendMailDeleteProducts = async (userEmail, title) =>{
+
+        try {
+            const result = await this.client.sendMail({
+                //from: from,
+                from: options.mailing.USER,
+                to: userEmail,
+                subject: "Aviso de eliminación de productos",
+                html: `
+                <div>
+                    <h1>Aviso de eliminacion de productos</h1>
+                    <h3>Su podructo ${title} ha sido eliminador por un administrador</h3>
+                    </br>
+                </div>
+                `
+            })
+            console.log(result);
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
 }

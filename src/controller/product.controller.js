@@ -4,6 +4,9 @@ import { CustomError } from "../services/customError.service.js";
 import { EError } from "../enums/EError.js";
 import { generateProductErrorInfo } from "../services/productErrorInfo.js";
 import { generateProductErrorParam } from "../services/productErrorParam.js";
+import MailingService from "../utils/mailing.js";
+
+const mailer = new MailingService();
 
 class ProductController {
     static getProducts = async (req, res) => {
@@ -73,7 +76,7 @@ class ProductController {
     static saveProduct = async (req, res) => {
 
         try {
-            const { title, description, code, price, status, stock, category, thumbnail } = req.body
+            const { title, description, code, price, status, stock, category, thumbnail, owner } = req.body
 
             if (!title || !description || !code || !price || !status || !stock || !category) {
                 CustomError.createError({
@@ -91,7 +94,8 @@ class ProductController {
                 status,
                 stock,
                 category,
-                thumbnail
+                thumbnail,
+                owner
             }
             const result = await productService.addProduct(product)
 
@@ -161,10 +165,9 @@ class ProductController {
 
         try {
             const pid = req.params.pid
-            const result = await productService.deleteProduct(pid)
-
+            
             let producto = await productService.getProductById(pid);
-
+            
             if (!producto) {
                 req.logger.error('Product not found')
                 return res.status(400).send({
@@ -172,6 +175,11 @@ class ProductController {
                     error: 'No existe el producto'
                 })
             }
+            if (producto.owner != "admin") {
+                console.log(producto.owner);
+                mailer.sendMailDeleteProducts(producto.owner, producto.title);
+            }
+            const result = await productService.deleteProduct(pid)
 
             res.send({
                 status: 'success',
