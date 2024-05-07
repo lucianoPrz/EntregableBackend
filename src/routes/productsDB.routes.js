@@ -13,7 +13,7 @@ router.post('/',  ProductController.saveProduct)
 
 router.put('/:pid', checkRole(["admin"]), ProductController.updateProduct)
 
-router.delete('/:pid', /*checkRole(["admin"]),*/ ProductController.deleteProduct)
+router.delete('/:pid', checkRole(["admin"]), ProductController.deleteProduct)
 
 
 export { router as productRouterDB }
