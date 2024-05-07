@@ -30,7 +30,8 @@ export const generateProduct = () =>{
         price: parseFloat(commerce.price()),
         stock: parseInt(string.numeric(2)),
         category: commerce.department(),
-        thumbnail: [image.url()],
+        thumbnail: image.url(),
+        owner: "admin"
     }
 }
 
