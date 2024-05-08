@@ -8,6 +8,6 @@ import { TicketManagerDB } from "../dao/managers/mongo/ticketManagerDB.js";
 import { TicketRepository } from "./ticket.repository.js";
 
 export const userService = new UserRepository(new User);
-export const cartService = new CartRepository(new CartManagerDB);
-export const productService = new ProductRepository(new ProductManagerDB);
-export const ticketService = new TicketRepository(new TicketManagerDB)
+export const cartService = new CartRepository(CartManagerDB);
+export const productService = new ProductRepository(ProductManagerDB);
+export const ticketService = new TicketRepository(TicketManagerDB)
