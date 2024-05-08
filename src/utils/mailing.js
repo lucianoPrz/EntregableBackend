@@ -19,7 +19,8 @@ export default class MailingService {
     sendMailRecoveryPass = async (userEmail, token) =>{
 
         try {
-            const link = `http://localhost:8080/reset-password?token=${token}`
+
+            const link = `https://entregablebackend-production.up.railway.app/reset-password?token=${token}`
             const result = await this.client.sendMail({
                 //from: from,
                 from: options.mailing.USER,
@@ -47,7 +48,7 @@ export default class MailingService {
     sendMailUserDelete = async (userEmail) =>{
 
         try {
-            const link = `http://localhost:8080/register`
+            const link = `https://entregablebackend-production.up.railway.app/register`
             const result = await this.client.sendMail({
                 //from: from,
                 from: options.mailing.USER,
