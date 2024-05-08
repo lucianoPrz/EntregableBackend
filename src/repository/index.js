@@ -4,7 +4,7 @@ import { CartRepository } from "./cart.repository.js";
 import {CartManagerDB } from '../dao/managers/mongo/CartManagerDB.js'
 import { ProductRepository } from "./product.repository.js";
 import { ProductManagerDB } from "../dao/managers/mongo/ProductManagerDB.js";
-import { TicketManagerDB } from "../dao/managers/mongo/ticketManagerDB.js";
+import { TicketManagerDB } from "../dao/managers/mongo/TicketManagerDB.js"
 import { TicketRepository } from "./ticket.repository.js";
 
 const userDao = new User()
