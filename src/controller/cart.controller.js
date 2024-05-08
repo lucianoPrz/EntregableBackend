@@ -86,10 +86,9 @@ class CartController {
         try {
             const pid = req.params.pid
         const cid = req.params.cid
-        const quantity = req.params.quantity
 
-        const result = await cartService.deleteProdInCart(pid, cid, quantity)
-
+        const result = await cartService.deleteProductInCart(pid, cid)
+           
         res.send({
             status: 'success',
             msg: result

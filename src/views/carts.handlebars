@@ -30,6 +30,8 @@
                         <h5 class="card-title fw-bold">{{this.product.title}}</h5>
                         <p class="card-text">{{this.quantity}}</p>
                         <p class="card-text fw-bolder">{{this.product.price}}</p>
+                        <a class="btn btn-primary remove-from-cart" data-cart="{{carrito}}"
+                            data-product-id="{{this.product._id}}">Quitar del carrito</a>
                     </div>
                 </div>
             </div>
@@ -45,4 +47,5 @@
     </div>
 </div>
 
-<script src="/js/purchase.js"></script>
+<script src="/js/cartManagement.js"></script>
+
