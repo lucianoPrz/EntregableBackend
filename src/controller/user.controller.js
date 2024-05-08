@@ -17,6 +17,12 @@ class UserController {
                     error: 'No existe el usuario'
                 })
             }
+            if (user.role == 'admin') {
+                return res.status(400).send({
+                    status: 'error',
+                    error: `No se puede cambiar el rol de un administrador`
+                })
+             }
             
             const result = await userService.changeRole(uid)
 
@@ -94,6 +100,12 @@ class UserController {
             return res.status(400).send({
                 status: 'error',
                 error: `No existe el usuario con id ${uid}`
+            })
+         }
+         if (users.role == 'admin') {
+            return res.status(400).send({
+                status: 'error',
+                error: `No se puede eliminar un usuario con rol administrador`
             })
          }
          const result = await userService.deleteUser(uid)

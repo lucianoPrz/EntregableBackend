@@ -18,6 +18,7 @@ buttonChangeRole.addEventListener("click", e => {
         if (result.ok) {
             window.location.replace(`/users/${userId}`);
         } else {
+            alert("No se puede cambiar el rol de un administrador")
             console.log(result);
         }
     }).catch(error => {
@@ -46,6 +47,7 @@ deleteUserButton.addEventListener("click", e => {
             alert("Usuario eliminado")
             window.location.replace(`/userfind`);
         } else {
+            alert("No se pudo eliminar")
             console.log(result);
         }
     }).catch(error => {
